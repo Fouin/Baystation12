@@ -53,7 +53,7 @@ In short:
 
 
 /datum/universal_state/hell/proc/AreaSet()
-	for(var/area/A)
+	for(var/area/A in all_areas)
 		if(!istype(A,/area) || istype(A, /area/space))
 			continue
 

@@ -7,7 +7,6 @@
 	hide_client_images()
 	..()
 
-	my_client = null
 	return 1
 
 /mob/proc/handle_admin_logout()

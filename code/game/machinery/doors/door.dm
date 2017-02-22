@@ -449,8 +449,7 @@
 			source.thermal_conductivity = initial(source.thermal_conductivity)
 
 /obj/machinery/door/Move(new_loc, new_dir)
-	update_nearby_tiles()
-
+	//update_nearby_tiles()
 	. = ..()
 	if(width > 1)
 		if(dir in list(EAST, WEST))
@@ -460,12 +459,7 @@
 			bound_width = world.icon_size
 			bound_height = width * world.icon_size
 
-	if(.)
-		deconstruct(null, TRUE)
-
-
-/obj/machinery/door/proc/deconstruct(mob/user, var/moved = FALSE)
-	return null
+	update_nearby_tiles()
 
 /obj/machinery/door/morgue
 	icon = 'icons/obj/doors/doormorgue.dmi'

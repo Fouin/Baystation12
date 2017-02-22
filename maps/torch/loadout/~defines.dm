@@ -26,11 +26,7 @@
 
 #undef MEDICAL_ROLES
 
-#undef STERILE_ROLES
-
 #undef ENGINEERING_ROLES
-
-#undef TECHNICAL_ROLES
 
 #undef SECURITY_ROLES
 

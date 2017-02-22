@@ -134,7 +134,9 @@
 
 	var/list/data = list()
 
-	var/list/geneMasks = plant_controller.gene_masked_list
+	var/list/geneMasks[0]
+	for(var/gene_tag in plant_controller.gene_tag_masks)
+		geneMasks.Add(list(list("tag" = gene_tag, "mask" = plant_controller.gene_tag_masks[gene_tag])))
 	data["geneMasks"] = geneMasks
 
 	data["activity"] = active

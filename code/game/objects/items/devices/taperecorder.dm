@@ -99,7 +99,7 @@
 
 
 /obj/item/device/taperecorder/see_emote(mob/M as mob, text, var/emote_type)
-	if(emote_type != AUDIBLE_MESSAGE) //only hearable emotes
+	if(emote_type != 2) //only hearable emotes
 		return
 	if(mytape && recording)
 		mytape.record_speech("[strip_html_properly(text)]")
@@ -107,9 +107,9 @@
 
 /obj/item/device/taperecorder/show_message(msg, type, alt, alt_type)
 	var/recordedtext
-	if (msg && type == AUDIBLE_MESSAGE) //must be hearable
+	if (msg && type == 2) //must be hearable
 		recordedtext = msg
-	else if (alt && alt_type == AUDIBLE_MESSAGE)
+	else if (alt && alt_type == 2)
 		recordedtext = alt
 	else
 		return
@@ -146,14 +146,17 @@
 	if(!mytape)
 		to_chat(usr, "<span class='notice'>There's no tape!</span>")
 		return
-	if(mytape.ruined || emagged)
-		audible_message("<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+	if(mytape.ruined)
+		to_chat(usr, "<span class='warning'>The tape recorder makes a scratchy noise.</span>")
 		return
 	if(recording)
 		to_chat(usr, "<span class='notice'>You're already recording!</span>")
 		return
 	if(playing)
 		to_chat(usr, "<span class='notice'>You can't record when playing!</span>")
+		return
+	if(emagged)
+		to_chat(usr, "<span class='warning'>The tape recorder makes a scratchy noise.</span>")
 		return
 	if(mytape.used_capacity < mytape.max_capacity)
 		to_chat(usr, "<span class='notice'>Recording started.</span>")
@@ -213,8 +216,11 @@
 
 	if(usr.incapacitated())
 		return
-	if(emagged || mytape.ruined)
-		audible_message("<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+	if(emagged)
+		to_chat(usr, "<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+		return
+	if(mytape.ruined)
+		to_chat(usr, "<span class='warning'>The tape recorder makes a scratchy noise.</span>")
 		return
 	if(recording || playing)
 		to_chat(usr, "<span class='notice'>You can't wipe the tape while playing or recording!</span>")
@@ -237,7 +243,7 @@
 		to_chat(usr, "<span class='notice'>There's no tape!</span>")
 		return
 	if(mytape.ruined)
-		audible_message("<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+		to_chat(usr, "<span class='warning'>The tape recorder makes a scratchy noise.</span>")
 		return
 	if(recording)
 		to_chat(usr, "<span class='notice'>You can't playback when recording!</span>")
@@ -247,7 +253,7 @@
 		return
 	playing = 1
 	update_icon()
-	to_chat(usr, "<span class='notice'>Audio playback started.</span>")
+	to_chat(usr, "<span class='notice'>Playing started.</span>")
 	for(var/i=1 , i < mytape.max_capacity , i++)
 		if(!mytape || !playing)
 			break
@@ -308,8 +314,11 @@
 	if(!mytape)
 		to_chat(usr, "<span class='notice'>There's no tape!</span>")
 		return
-	if(mytape.ruined || emagged)
-		audible_message("<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+	if(mytape.ruined)
+		to_chat(usr, "<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+		return
+	if(emagged)
+		to_chat(usr, "<span class='warning'>The tape recorder makes a scratchy noise.</span>")
 		return
 	if(!canprint)
 		to_chat(usr, "<span class='notice'>The recorder can't print that fast!</span>")

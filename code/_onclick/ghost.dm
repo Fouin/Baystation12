@@ -11,6 +11,9 @@
 		to_chat(src, "<span class='notice'>You will no longer examine things you click on.</span>")
 
 /mob/observer/ghost/DblClickOn(var/atom/A, var/params)
+	if(client.buildmode)
+		build_click(src, client.buildmode, params, A)
+		return
 	if(can_reenter_corpse && mind && mind.current)
 		if(A == mind.current || (mind.current in A)) // double click your corpse or whatever holds it
 			reenter_corpse()						// (cloning scanner, body bag, closet, mech, etc)
@@ -25,6 +28,9 @@
 		forceMove(get_turf(A))
 
 /mob/observer/ghost/ClickOn(var/atom/A, var/params)
+	if(client.buildmode)
+		build_click(src, client.buildmode, params, A)
+		return
 	if(!canClick()) return
 	setClickCooldown(DEFAULT_QUICK_COOLDOWN)
 	// You are responsible for checking config.ghost_interaction when you override this function

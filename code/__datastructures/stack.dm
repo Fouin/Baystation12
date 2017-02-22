@@ -1,16 +1,13 @@
 /datum/stack
-	var/list/stack
+	var/list/stack = list()
 	var/max_elements = 0
 
 /datum/stack/New(list/elements, max)
 	..()
-	stack = elements ? elements.Copy() : list()
+	if(elements)
+		stack = elements.Copy()
 	if(max)
 		max_elements = max
-
-/datum/stack/Destroy()
-	Clear()
-	. = ..()
 
 /datum/stack/proc/Pop()
 	if(is_empty())
@@ -27,9 +24,6 @@
 	if(is_empty())
 		return null
 	. = stack[stack.len]
-
-/datum/stack/proc/Remove(element)
-	stack -= element
 
 /datum/stack/proc/is_empty()
 	. = stack.len ? 0 : 1
@@ -58,9 +52,4 @@
 	return S
 
 /datum/stack/proc/Clear()
-	stack.Cut()
-
-/datum/stack/proc/QdelClear()
-	for(var/entry in stack)
-		qdel(entry)
 	stack.Cut()

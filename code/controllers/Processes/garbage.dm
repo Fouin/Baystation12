@@ -135,9 +135,6 @@ world/loop_checks = 0
 	else
 		delayed_garbage |= src
 
-/client/finalize_qdel()
-	del(src)
-
 /icon/finalize_qdel()
 	del(src)
 

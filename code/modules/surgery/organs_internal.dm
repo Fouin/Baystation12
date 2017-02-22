@@ -6,8 +6,6 @@
 	priority = 2
 	can_infect = 1
 	blood_level = 1
-	shock_level = 40
-	delicate = 1
 
 /datum/surgery_step/internal/can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 
@@ -23,8 +21,7 @@
 /datum/surgery_step/internal/fix_organ
 	allowed_tools = list(
 	/obj/item/stack/medical/advanced/bruise_pack= 100,		\
-	/obj/item/stack/medical/bruise_pack = 40,	\
-	/obj/item/weapon/tape_roll = 20
+	/obj/item/stack/medical/bruise_pack = 20
 	)
 
 	min_duration = 70
@@ -96,10 +93,10 @@
 	if (istype(tool, /obj/item/stack/medical/advanced/bruise_pack))
 		target.adjustToxLoss(5)
 
-	else
+	else if (istype(tool, /obj/item/stack/medical/bruise_pack))
 		dam_amt = 5
 		target.adjustToxLoss(10)
-		affected.take_damage(dam_amt, 0, (DAM_SHARP|DAM_EDGE), used_weapon = tool)
+		affected.createwound(CUT, 5)
 
 	for(var/obj/item/organ/internal/I in affected.internal_organs)
 		if(I && I.damage > 0 && I.robotic < ORGAN_ROBOT && (I.surface_accessible || affected.open >= (affected.encased ? 3 : 2)))
@@ -113,7 +110,6 @@
 	allowed_tools = list(
 	/obj/item/weapon/scalpel = 100,		\
 	/obj/item/weapon/material/knife = 75,	\
-	/obj/item/weapon/material/kitchen/utensil/knife = 75,	\
 	/obj/item/weapon/material/shard = 50, 		\
 	)
 
@@ -164,7 +160,7 @@
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 	user.visible_message("<span class='warning'>[user]'s hand slips, slicing an artery inside [target]'s [affected.name] with \the [tool]!</span>", \
 	"<span class='warning'>Your hand slips, slicing an artery inside [target]'s [affected.name] with \the [tool]!</span>")
-	affected.take_damage(rand(30,50), 0, (DAM_SHARP|DAM_EDGE), used_weapon = tool)
+	affected.createwound(CUT, rand(30,50), 1)
 
 //////////////////////////////////////////////////////////////////
 //	 Organ removal surgery step
@@ -235,7 +231,7 @@
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 	user.visible_message("<span class='warning'>[user]'s hand slips, damaging [target]'s [affected.name] with \the [tool]!</span>", \
 	"<span class='warning'>Your hand slips, damaging [target]'s [affected.name] with \the [tool]!</span>")
-	affected.take_damage(20, used_weapon = tool)
+	affected.createwound(BRUISE, 20)
 
 //////////////////////////////////////////////////////////////////
 //	 Organ inserting surgery step
@@ -331,8 +327,7 @@
 /datum/surgery_step/internal/attach_organ
 	allowed_tools = list(
 	/obj/item/weapon/FixOVein = 100, \
-	/obj/item/stack/cable_coil = 75,	\
-	/obj/item/weapon/tape_roll = 50
+	/obj/item/stack/cable_coil = 75
 	)
 
 	min_duration = 100
@@ -383,4 +378,21 @@
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 	user.visible_message("<span class='warning'>[user]'s hand slips, damaging the flesh in [target]'s [affected.name] with \the [tool]!</span>", \
 	"<span class='warning'>Your hand slips, damaging the flesh in [target]'s [affected.name] with \the [tool]!</span>")
-	affected.take_damage(20, used_weapon = tool)
+	affected.createwound(BRUISE, 20)
+
+//////////////////////////////////////////////////////////////////
+//						HEART SURGERY							//
+//////////////////////////////////////////////////////////////////
+// To be finished after some tests.
+// /datum/surgery_step/ribcage/heart/cut
+//	allowed_tools = list(
+//	/obj/item/weapon/scalpel = 100,		\
+//	/obj/item/weapon/material/knife = 75,	\
+//	/obj/item/weapon/material/shard = 50, 		\
+//	)
+
+//	min_duration = 30
+//	max_duration = 40
+
+//	can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
+//		return ..() && target.op_stage.ribcage == 2

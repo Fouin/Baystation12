@@ -40,7 +40,8 @@
 	allowed_roles = FORMAL_ROLES
 
 /datum/gear/head/hardhat
-	allowed_roles = TECHNICAL_ROLES
+	allowed_roles = list("Chief Engineer", "Senior Engineer", "Engineer", "Maintenance Assistant", "Roboticist", "Deck Officer", "Deck Technician",
+						"Supply Assistant", "Prospector", "Sanitation Technician", "Research Assistant", "Merchant")
 
 /datum/gear/head/formalhat
 	allowed_roles = FORMAL_ROLES
@@ -50,7 +51,8 @@
 	allowed_roles = SEMIFORMAL_ROLES
 
 /datum/gear/head/welding
-	allowed_roles = TECHNICAL_ROLES
+	allowed_roles = list("Senior Engineer", "Engineer", "Maintenance Assistant", "Roboticist", "Deck Officer", "Deck Technician",
+						"Supply Assistant", "Prospector", "Research Assistant", "Merchant")
 
 /datum/gear/head/solhat
 	display_name = "Sol Central Government Cap"

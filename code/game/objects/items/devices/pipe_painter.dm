@@ -1,7 +1,7 @@
 /obj/item/device/pipe_painter
 	name = "pipe painter"
-	icon = 'icons/obj/device.dmi'
-	icon_state = "pipainter"
+	icon = 'icons/obj/bureaucracy.dmi'
+	icon_state = "labeler1"
 	item_state = "flight"
 	var/list/modes
 	var/mode

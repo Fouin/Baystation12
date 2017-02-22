@@ -32,17 +32,5 @@
 	//same as plain meat
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/corgi
-	name = "corgi meat"
+	name = "Corgi meat"
 	desc = "Tastes like... well, you know."
-
-/obj/item/weapon/reagent_containers/food/snacks/meat/beef
-	name = "beef slab"
-	desc = "The classic red meat."
-
-/obj/item/weapon/reagent_containers/food/snacks/meat/goat
-	name = "chevon slab"
-	desc = "Goat meat, to the uncultured."
-
-/obj/item/weapon/reagent_containers/food/snacks/meat/chicken
-	name = "chicken piece"
-	desc = "It tastes like you'd expect."

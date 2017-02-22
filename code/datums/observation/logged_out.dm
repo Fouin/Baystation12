@@ -4,8 +4,7 @@
 //		Raised when: A mob logs out (client either logged out or was moved to another mob)
 //
 //		Arguments that the called proc should expect:
-//			/mob/leaver:    The mob that has logged out
-//			/client/client: The mob's client
+//			/mob/leaver: The mob that has logged out
 
 var/decl/observ/logged_out/logged_out_event = new()
 
@@ -18,5 +17,5 @@ var/decl/observ/logged_out/logged_out_event = new()
 ******************/
 
 /mob/Logout()
-	logged_out_event.raise_event(src, my_client)
 	..()
+	logged_out_event.raise_event(src)

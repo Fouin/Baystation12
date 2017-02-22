@@ -7,11 +7,12 @@
 
 	temperature = T20C
 	thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
-	var/keep_sprite = 0
 //	heat_capacity = 700000 No.
 
 /turf/space/New()
-	if((icon_state == "0") && (!keep_sprite))
+	if(icon_state == "0")
+		icon_state = "[((x + y) ^ ~(x * y)) % 25]"
+	if(!istype(src, /turf/space/transit))
 		icon_state = "[((x + y) ^ ~(x * y)) % 25]"
 	update_starlight()
 	..()
@@ -206,4 +207,3 @@
 /turf/space/bluespace
 	name = "bluespace"
 	icon_state = "bluespace"
-	keep_sprite = 1

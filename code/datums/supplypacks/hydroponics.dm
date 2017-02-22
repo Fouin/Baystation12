@@ -31,33 +31,11 @@
 	containername = "\improper Stok crate"
 
 /decl/hierarchy/supply_pack/hydroponics/lisa
-	name = "Corgi crate"
+	name = "Corgi Crate"
 	contains = list()
 	cost = 50
 	containertype = /obj/structure/largecrate/animal/corgi
-	containername = "\improper Corgi crate"
-
-//farm animals - useless and annoying, but potentially a good source of food. expensive because they're live animals and their produce is available cheaper
-/decl/hierarchy/supply_pack/hydroponics/cow
-	name = "Cow crate"
-	cost = 80
-	containertype = /obj/structure/largecrate/animal/cow
-	containername = "\improper Cow crate"
-	access = access_hydroponics
-
-/decl/hierarchy/supply_pack/hydroponics/goat
-	name = "Goat crate"
-	cost = 75
-	containertype = /obj/structure/largecrate/animal/goat
-	containername = "\improper Goat crate"
-	access = access_hydroponics
-
-/decl/hierarchy/supply_pack/hydroponics/chicken
-	name = "Chicken crate"
-	cost = 70
-	containertype = /obj/structure/largecrate/animal/chick
-	containername = "\improper Chicken crate"
-	access = access_hydroponics
+	containername = "\improper Corgi Crate"
 
 /decl/hierarchy/supply_pack/hydroponics/hydroponics // -- Skie
 	name = "Hydroponics Supply Crate"
@@ -73,6 +51,28 @@
 					)
 	cost = 15
 	containername = "\improper Hydroponics crate"
+	access = access_hydroponics
+
+//farm animals - useless and annoying, but potentially a good source of food
+/decl/hierarchy/supply_pack/hydroponics/cow
+	name = "Cow crate"
+	cost = 30
+	containertype = /obj/structure/largecrate/animal/cow
+	containername = "\improper Cow crate"
+	access = access_hydroponics
+
+/decl/hierarchy/supply_pack/hydroponics/goat
+	name = "Goat crate"
+	cost = 25
+	containertype = /obj/structure/largecrate/animal/goat
+	containername = "\improper Goat crate"
+	access = access_hydroponics
+
+/decl/hierarchy/supply_pack/hydroponics/chicken
+	name = "Chicken crate"
+	cost = 20
+	containertype = /obj/structure/largecrate/animal/chick
+	containername = "\improper Chicken crate"
 	access = access_hydroponics
 
 /decl/hierarchy/supply_pack/hydroponics/seeds

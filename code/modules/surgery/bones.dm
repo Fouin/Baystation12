@@ -20,7 +20,6 @@
 
 	min_duration = 50
 	max_duration = 60
-	shock_level = 20
 
 /datum/surgery_step/glue_bone/can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	if (!hasorgans(target))
@@ -61,8 +60,6 @@
 
 	min_duration = 60
 	max_duration = 70
-	shock_level = 40
-	delicate = 1
 
 /datum/surgery_step/set_bone/can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	if (!hasorgans(target))
@@ -94,8 +91,7 @@
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)
 	user.visible_message("<span class='warning'>[user]'s hand slips, damaging the [affected.encased ? affected.encased : "bones"] in [target]'s [affected.name] with \the [tool]!</span>" , \
 		"<span class='warning'>Your hand slips, damaging the [affected.encased ? affected.encased : "bones"] in [target]'s [affected.name] with \the [tool]!</span>")
-	affected.fracture()
-	affected.take_damage(5, used_weapon = tool)
+	affected.createwound(BRUISE, 5)
 
 
 //////////////////////////////////////////////////////////////////
@@ -109,8 +105,6 @@
 
 	min_duration = 60
 	max_duration = 70
-	shock_level = 40
-	delicate = 1
 
 /datum/surgery_step/mend_skull/can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	if (!hasorgans(target))
@@ -134,7 +128,7 @@
 	user.visible_message("<span class='warning'>[user]'s hand slips, damaging [target]'s face with \the [tool]!</span>"  , \
 		"<span class='warning'>Your hand slips, damaging [target]'s face with \the [tool]!</span>")
 	var/obj/item/organ/external/head/h = affected
-	affected.take_damage(10, used_weapon = tool)
+	h.createwound(BRUISE, 10)
 	h.disfigured = 1
 
 //////////////////////////////////////////////////////////////////
@@ -150,7 +144,6 @@
 
 	min_duration = 50
 	max_duration = 60
-	shock_level = 20
 
 /datum/surgery_step/finish_bone/can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	if (!hasorgans(target))

@@ -864,7 +864,7 @@ I said no!
 
 /datum/recipe/mushroomsoup
 	fruit = list("mushroom" = 1)
-	reagents = list("milk" = 10)
+	reagents = list("water" = 5, "milk" = 5)
 	result = /obj/item/weapon/reagent_containers/food/snacks/mushroomsoup
 
 /datum/recipe/chawanmushi

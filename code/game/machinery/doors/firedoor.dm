@@ -214,7 +214,18 @@
 					playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 					user.visible_message("<span class='danger'>[user] has removed the electronics from \the [src].</span>",
 										"You have removed the electronics from [src].")
-					deconstruct(user)
+
+					if (stat & BROKEN)
+						new /obj/item/weapon/circuitboard/broken(src.loc)
+					else
+						new/obj/item/weapon/airalarm_electronics(src.loc)
+
+					var/obj/structure/firedoor_assembly/FA = new/obj/structure/firedoor_assembly(src.loc)
+					FA.anchored = 1
+					FA.set_density(1)
+					FA.wired = 1
+					FA.update_icon()
+					qdel(src)
 		return
 
 	if(blocked)
@@ -258,21 +269,6 @@
 			return
 
 	return ..()
-
-/obj/machinery/door/firedoor/deconstruct(mob/user, var/moved = FALSE)
-	if (stat & BROKEN)
-		new /obj/item/weapon/circuitboard/broken(src.loc)
-	else
-		new/obj/item/weapon/airalarm_electronics(src.loc)
-
-	var/obj/structure/firedoor_assembly/FA = new/obj/structure/firedoor_assembly(src.loc)
-	FA.anchored = !moved
-	FA.set_density(1)
-	FA.wired = 1
-	FA.update_icon()
-	qdel(src)
-
-	return FA
 
 // CHECK PRESSURE
 /obj/machinery/door/firedoor/process()
