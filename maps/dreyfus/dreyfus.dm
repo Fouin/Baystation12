@@ -1,14 +1,5 @@
 #if !defined(USING_MAP_DATUM)
 
-	#include "dreyfus-01.dmm" // - Abandonné - IA(?), traitement des déchets
-	#include "dreyfus-02.dmm" // - Ingénierie - Moteur. Lifesupport.
-	#include "dreyfus-03.dmm" // - Cargo - Ouvrier, Production et logistique
-	#include "dreyfus-04.dmm" // - Résidentiel - Clinique, bar et good vibes
-	#include "dreyfus-05.dmm" // - Bureaux - Personnel administratif et direction
-	#include "dreyfus-06.dmm" // - Coupole - Jardin, réception des invités
-	#include "dreyfus-07.dmm"
-	#include "dreyfus-08.dmm"
-
 	#include "../shared/exodus_torch/_include.dm"
 
 	#include "dreyfus_announcements.dm"
@@ -43,6 +34,14 @@
 	#include "structures/railing.dm"
 	#include "structures/shelf.dm" //Abruti
 
+	#include "dreyfus-01.dmm" // - Abandonné - IA(?), traitement des déchets
+	#include "dreyfus-02.dmm" // - Ingénierie - Moteur. Lifesupport.
+	#include "dreyfus-03.dmm" // - Cargo - Ouvrier, Production et logistique
+	#include "dreyfus-04.dmm" // - Résidentiel - Clinique, bar et good vibes
+	#include "dreyfus-05.dmm" // - Bureaux - Personnel administratif et direction
+	#include "dreyfus-06.dmm" // - Coupole - Jardin, réception des invités
+	#include "dreyfus-07.dmm"
+	#include "dreyfus-08.dmm"
 
 	#include "../shared/exodus_torch/_include.dm"
 

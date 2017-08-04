@@ -494,6 +494,13 @@ area/shuttle/merc/start
 	name = "Chasseur Huon"
 	icon_state = "shuttlered"
 
+//Skipjack
+
+/area/skipjack_station
+	name = "Skipjack Stiletto"
+	icon_state = "yellow"
+	requires_power = 0
+
 //Pod areas
 
 /area/shuttle/escape_pod1/station

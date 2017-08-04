@@ -224,3 +224,44 @@
 /obj/effect/shuttle_landmark/ninja/asteroid
 	name = "Asteroids on Industrial Deck"
 	landmark_tag = "nav_ninja_asteroid"
+
+//Skipjack
+
+/datum/shuttle/autodock/multi/antag/skipjack
+    name = "Skipjack"
+    warmup_time = 0
+    destinations = list(
+        "nav_skipjack_ai",
+        "nav_skipjack_civ",
+        "nav_skipjack_ind",
+        "nav_skipjack_start"
+        )
+    shuttle_area =  /area/skipjack_station/start
+    dock_target = "skipjack_shuttle"
+    current_location = "nav_skipjack_start"
+    landmark_transition = "nav_skipjack_transition"
+    announcer = "ESIN Dreyfus Sensor Array"
+    home_waypoint = "nav_skipjack_start"
+    arrival_message = "Attention, vessel detected entering station proximity."
+    departure_message = "Attention, vessel detected leaving station proximity."
+
+/obj/effect/shuttle_landmark/skipjack/start
+    name = "Raider Outpost"
+    landmark_tag = "nav_skipjack_start"
+    docking_controller = "skipjack_base"
+
+/obj/effect/shuttle_landmark/skipjack/internim
+    name = "In transit"
+    landmark_tag = "nav_skipjack_transition"
+
+/obj/effect/shuttle_landmark/skipjack/ai
+    name = "Silicon Deck"
+    landmark_tag = "nav_skipjack_ai"
+
+/obj/effect/shuttle_landmark/skipjack/civ
+    name = "West of Civilian Deck"
+    landmark_tag = "nav_skipjack_civ"
+
+/obj/effect/shuttle_landmark/skipjack/ind
+    name = "Mining Airlock"
+    landmark_tag = "nav_skipjack_ind"
