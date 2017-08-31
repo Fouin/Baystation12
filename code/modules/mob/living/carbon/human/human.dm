@@ -30,7 +30,7 @@
 	hud_list[HEALTH_HUD]      = new /image/hud_overlay('icons/mob/hud_med.dmi', src, "100")
 	hud_list[STATUS_HUD]      = new /image/hud_overlay('icons/mob/hud.dmi', src, "hudhealthy")
 	hud_list[LIFE_HUD]	      = new /image/hud_overlay('icons/mob/hud.dmi', src, "hudhealthy")
-	hud_list[ID_HUD]          = new /image/hud_overlay(using_map.id_hud_icons, src, "hudunknown")
+	hud_list[ID_HUD]          = new /image/hud_overlay(GLOB.using_map.id_hud_icons, src, "hudunknown")
 	hud_list[WANTED_HUD]      = new /image/hud_overlay('icons/mob/hud.dmi', src, "hudblank")
 	hud_list[IMPLOYAL_HUD]    = new /image/hud_overlay('icons/mob/hud.dmi', src, "hudblank")
 	hud_list[IMPCHEM_HUD]     = new /image/hud_overlay('icons/mob/hud.dmi', src, "hudblank")
@@ -38,7 +38,7 @@
 	hud_list[SPECIALROLE_HUD] = new /image/hud_overlay('icons/mob/hud.dmi', src, "hudblank")
 	hud_list[STATUS_HUD_OOC]  = new /image/hud_overlay('icons/mob/hud.dmi', src, "hudhealthy")
 
-	human_mob_list |= src
+	GLOB.human_mob_list |= src
 	..()
 
 	if(dna)
@@ -48,7 +48,8 @@
 	make_blood()
 
 /mob/living/carbon/human/Destroy()
-	human_mob_list -= src
+	GLOB.human_mob_list -= src
+	worn_underwear = null
 	for(var/organ in organs)
 		qdel(organ)
 	return ..()
@@ -75,7 +76,7 @@
 		var/obj/item/organ/internal/xenos/plasmavessel/P = internal_organs_by_name[BP_PLASMA]
 		if(P)
 			stat(null, "Phoron Stored: [P.stored_plasma]/[P.max_plasma]")
-		
+
 		var/obj/item/organ/internal/cell/potato = internal_organs_by_name[BP_CELL]
 		if(potato && potato.cell)
 			stat("Battery charge:", "[potato.get_charge()]/[potato.cell.maxcharge]")
@@ -219,6 +220,11 @@
 			dat += "<BR><A href='?src=\ref[src];item=sensors'>Set sensors</A>"
 	if(handcuffed)
 		dat += "<BR><A href='?src=\ref[src];item=[slot_handcuffed]'>Handcuffed</A>"
+
+	for(var/entry in worn_underwear)
+		var/obj/item/underwear/UW = entry
+		dat += "<BR><a href='?src=\ref[src];item=\ref[UW]'>Remove \the [UW]</a>"
+
 	dat += "<BR><A href='?src=\ref[src];item=splints'>Remove splints</A>"
 	dat += "<BR><A href='?src=\ref[src];refresh=1'>Refresh</A>"
 	dat += "<BR><A href='?src=\ref[user];mach_close=mob[name]'>Close</A>"
@@ -298,7 +304,10 @@
 /mob/living/carbon/human/proc/get_face_name()
 	var/obj/item/organ/external/H = get_organ(BP_HEAD)
 	if(!H || H.disfigured || H.is_stump() || !real_name || (HUSK in mutations) || (wear_mask && (wear_mask.flags_inv&HIDEFACE)) || (head && (head.flags_inv&HIDEFACE)))	//Face is unrecognizeable, use ID if able
-		return "Unknown"
+		if(istype(wear_mask))
+			return wear_mask.visible_name
+		else
+			return "Unknown"
 	return real_name
 
 //gets name from ID or PDA itself, ID inside PDA doesn't matter
@@ -353,7 +362,8 @@
 		src << browse(null, t1)
 
 	if(href_list["item"])
-		handle_strip(href_list["item"],usr,locate(href_list["holder"]))
+		if(!handle_strip(href_list["item"],usr,locate(href_list["holder"])))
+			show_inv(usr)
 
 	if (href_list["criminal"])
 		if(hasHUD(usr,"security"))
@@ -370,9 +380,9 @@
 				perpname = name
 
 			if(perpname)
-				for (var/datum/data/record/E in data_core.general)
+				for (var/datum/data/record/E in GLOB.data_core.general)
 					if (E.fields["name"] == perpname)
-						for (var/datum/data/record/R in data_core.security)
+						for (var/datum/data/record/R in GLOB.data_core.security)
 							if (R.fields["id"] == E.fields["id"])
 
 								var/setcriminal = input(usr, "Specify a new criminal status for this person.", "Security HUD", R.fields["criminal"]) in list("None", "*Arrest*", "Incarcerated", "Parolled", "Released", "Cancel")
@@ -406,9 +416,9 @@
 					perpname = tempPda.owner
 			else
 				perpname = src.name
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if (E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.security)
+					for (var/datum/data/record/R in GLOB.data_core.security)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"security"))
 								to_chat(usr, "<b>Name:</b> [R.fields["name"]]	<b>Criminal Status:</b> [R.fields["criminal"]]")
@@ -435,9 +445,9 @@
 					perpname = tempPda.owner
 			else
 				perpname = src.name
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if (E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.security)
+					for (var/datum/data/record/R in GLOB.data_core.security)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"security"))
 								read = 1
@@ -461,9 +471,9 @@
 					perpname = tempPda.owner
 			else
 				perpname = src.name
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if (E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.security)
+					for (var/datum/data/record/R in GLOB.data_core.security)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"security"))
 								var/t1 = sanitize(input("Add Comment:", "Sec. records", null, null)  as message)
@@ -493,9 +503,9 @@
 			else
 				perpname = src.name
 
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if (E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.general)
+					for (var/datum/data/record/R in GLOB.data_core.general)
 						if (R.fields["id"] == E.fields["id"])
 
 							var/setmedical = input(usr, "Specify a new medical status for this person.", "Medical HUD", R.fields["p_stat"]) in list("*SSD*", "*Deceased*", "Physically Unfit", "Active", "Disabled", "Cancel")
@@ -530,17 +540,19 @@
 					perpname = tempPda.owner
 			else
 				perpname = src.name
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if (E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.medical)
+					for (var/datum/data/record/R in GLOB.data_core.medical)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"medical"))
-								to_chat(usr, "<b>Name:</b> [R.fields["name"]]	<b>Blood Type:</b> [R.fields["b_type"]]")
+								to_chat(usr, "<b>Name:</b> [R.fields["name"]]")
+								to_chat(usr, "<b>Gender:</b> [R.fields["id_gender"]]")
+								to_chat(usr, "<b>Species:</b> [R.fields["species"]]")
 								to_chat(usr, "<b>DNA:</b> [R.fields["b_dna"]]")
-								to_chat(usr, "<b>Minor Disabilities:</b> [R.fields["mi_dis"]]")
-								to_chat(usr, "<b>Details:</b> [R.fields["mi_dis_d"]]")
-								to_chat(usr, "<b>Major Disabilities:</b> [R.fields["ma_dis"]]")
-								to_chat(usr, "<b>Details:</b> [R.fields["ma_dis_d"]]")
+								to_chat(usr, "<b>Blood Type:</b> [R.fields["b_type"]]")
+								to_chat(usr, "<b>Prosthetics:</b>")
+								for(var/p_name in R.fields["prosthetics"])
+									to_chat(usr, "\t [R.fields["prosthetics"][p_name]]")
 								to_chat(usr, "<b>Notes:</b> [R.fields["notes"]]")
 								to_chat(usr, "<a href='?src=\ref[src];medrecordComment=`'>\[View Comment Log\]</a>")
 								read = 1
@@ -560,9 +572,9 @@
 					perpname = tempPda.owner
 			else
 				perpname = src.name
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if (E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.medical)
+					for (var/datum/data/record/R in GLOB.data_core.medical)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"medical"))
 								read = 1
@@ -586,9 +598,9 @@
 					perpname = tempPda.owner
 			else
 				perpname = src.name
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if (E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.medical)
+					for (var/datum/data/record/R in GLOB.data_core.medical)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"medical"))
 								var/t1 = sanitize(input("Add Comment:", "Med. records", null, null)  as message)
@@ -672,7 +684,7 @@
 	return 1
 
 /mob/living/carbon/human/IsAdvancedToolUser(var/silent)
-	if(species.has_fine_manipulation)
+	if(species.has_fine_manipulation && !nabbing)
 		return 1
 	if(!silent)
 		to_chat(src, "<span class='warning'>You don't have the dexterity to use that!</span>")
@@ -709,22 +721,27 @@
 /mob/living/carbon/human/check_has_mouth()
 	// Todo, check stomach organ when implemented.
 	var/obj/item/organ/external/head/H = get_organ(BP_HEAD)
-	if(!istype(H) || !H.can_intake_reagents)
+	if(!H || !istype(H) || !H.can_intake_reagents)
 		return 0
 	return 1
 
-/mob/living/carbon/human/proc/vomit()
-	if(!check_has_mouth() || isSynthetic())
+/mob/living/carbon/human/proc/vomit(var/toxvomit = 0, var/timevomit = 1, var/level = 3)
+	set waitfor = 0
+	if(!check_has_mouth() || isSynthetic() || !timevomit || !level)
 		return
+	level = Clamp(level, 1, 3)
+	timevomit = Clamp(timevomit, 1, 10)
 	if(stat == DEAD)
 		return
 	if(!lastpuke)
 		lastpuke = 1
 		to_chat(src, "<span class='warning'>You feel nauseous...</span>")
-		spawn(150)	//15 seconds until second warning
+		if(level > 1)
+			sleep(150 / timevomit)	//15 seconds until second warning
 			to_chat(src, "<span class='warning'>You feel like you are about to throw up!</span>")
-			spawn(100)	//and you have 10 more for mad dash to the bucket
-				Stun(5)
+			if(level > 2)
+				sleep(100 / timevomit)	//and you have 10 more for mad dash to the bucket
+				Stun(3)
 				if(nutrition < 40)
 					custom_emote(1,"dry heaves.")
 				else
@@ -740,12 +757,11 @@
 
 					var/turf/location = loc
 					if (istype(location, /turf/simulated))
-						location.add_vomit_floor(src, 1)
-
-					nutrition -= 40
-					adjustToxLoss(-3)
-				spawn(350)	//wait 35 seconds before next volley
-					lastpuke = 0
+						location.add_vomit_floor(src, toxvomit)
+					ingested.remove_any(5)
+					nutrition -= 30
+		sleep(350)	//wait 35 seconds before next volley
+		lastpuke = 0
 
 /mob/living/carbon/human/proc/morph()
 	set name = "Morph"
@@ -912,7 +928,7 @@
 /mob/living/carbon/human/revive()
 
 	if(should_have_organ(BP_HEART))
-		vessel.add_reagent("blood",species.blood_volume-vessel.total_volume)
+		vessel.add_reagent(/datum/reagent/blood,species.blood_volume-vessel.total_volume)
 		fixblood()
 
 	species.create_organs(src) // Reset our organs/limbs.
@@ -1101,6 +1117,8 @@
 			remove_language(species.language)
 		if(species.default_language)
 			remove_language(species.default_language)
+		for(var/datum/language/L in species.assisted_langs)
+			remove_language(L)
 		// Clear out their species abilities.
 		species.remove_inherent_verbs(src)
 		holder_type = null
@@ -1110,9 +1128,16 @@
 
 	if(species.language)
 		add_language(species.language)
+		species_language = all_languages[species.language]
+
+	for(var/L in species.additional_langs)
+		add_language(L)
 
 	if(species.default_language)
 		add_language(species.default_language)
+
+	if(species.grab_type)
+		current_grab_type = all_grabobjects[species.grab_type]
 
 	if(species.base_color && default_colour)
 		//Apply colour.
@@ -1147,9 +1172,9 @@
 		regenerate_icons()
 		if(vessel.total_volume < species.blood_volume)
 			vessel.maximum_volume = species.blood_volume
-			vessel.add_reagent("blood", species.blood_volume - vessel.total_volume)
+			vessel.add_reagent(/datum/reagent/blood, species.blood_volume - vessel.total_volume)
 		else if(vessel.total_volume > species.blood_volume)
-			vessel.remove_reagent("blood", vessel.total_volume - species.blood_volume)
+			vessel.remove_reagent(/datum/reagent/blood, vessel.total_volume - species.blood_volume)
 			vessel.maximum_volume = species.blood_volume
 		fixblood()
 
@@ -1400,13 +1425,19 @@
 	set desc = "Try not to hurt them."
 	set category = "IC"
 
-	if(stat) return
+	if(stat || species.flags & CAN_NAB) return
 	pulling_punches = !pulling_punches
 	to_chat(src, "<span class='notice'>You are now [pulling_punches ? "pulling your punches" : "not pulling your punches"].</span>")
 	return
 
 //generates realistic-ish pulse output based on preset levels
 /mob/living/carbon/human/proc/get_pulse(var/method)	//method 0 is for hands, 1 is for machines, more accurate
+	var/obj/item/organ/internal/heart/H = internal_organs_by_name[BP_HEART]
+	if(!H)
+		return
+	if(H.open && !method)
+		return "muddled and unclear; you can't seem to find a vein"
+
 	var/temp = 0
 	switch(pulse())
 		if(PULSE_NONE)
@@ -1425,7 +1456,7 @@
 //			output for machines^	^^^^^^^output for people^^^^^^^^^
 
 /mob/living/carbon/human/proc/pulse()
-	var/obj/item/organ/internal/heart/H = internal_organs_by_name["heart"]
+	var/obj/item/organ/internal/heart/H = internal_organs_by_name[BP_HEART]
 	if(!H)
 		return PULSE_NONE
 	else
@@ -1485,6 +1516,12 @@
 			return 0
 		return check_organ.can_feel_pain()
 	return !(species.flags & NO_PAIN)
+
+/mob/living/carbon/human/need_breathe()
+	if(species.breathing_organ && should_have_organ(species.breathing_organ))
+		return 1
+	else
+		return 0
 
 /mob/living/carbon/human/get_adjusted_metabolism(metabolism)
 	return ..() * (species ? species.metabolism_mod : 1)
@@ -1561,13 +1598,13 @@
 
 /mob/living/carbon/human/proc/make_adrenaline(amount)
 	if(stat == CONSCIOUS)
-		reagents.add_reagent("adrenaline", amount)
+		reagents.add_reagent(/datum/reagent/adrenaline, amount)
 
 //Get fluffy numbers
 /mob/living/carbon/human/proc/get_blood_pressure()
 	if(status_flags & FAKEDEATH)
 		return "[Floor(120+rand(-5,5))*0.25]/[Floor(80+rand(-5,5)*0.25)]"
-	var/blood_result = get_effective_blood_volume()
+	var/blood_result = get_blood_circulation()
 	return "[Floor((120+rand(-5,5))*(blood_result/100))]/[Floor(80+rand(-5,5)*(blood_result/100))]"
 
 //Point at which you dun breathe no more. Separate from asystole crit, which is heart-related.

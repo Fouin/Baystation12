@@ -2,7 +2,7 @@
 
 /obj/effect/plant/proc/get_cardinal_neighbors()
 	var/list/cardinal_neighbors = list()
-	for(var/check_dir in cardinal)
+	for(var/check_dir in GLOB.cardinal)
 		var/turf/simulated/T = get_step(get_turf(src), check_dir)
 		if(istype(T))
 			cardinal_neighbors |= T
@@ -24,7 +24,7 @@
 			continue
 
 		if(floor.density)
-			if(!isnull(seed.chems["pacid"]))
+			if(!isnull(seed.chems[/datum/reagent/acid/polyacid]))
 				spawn(rand(5,25)) floor.ex_act(3)
 			continue
 
@@ -50,7 +50,7 @@
 		return 0
 
 	for(var/obj/effect/effect/smoke/chem/smoke in view(1, src))
-		if(smoke.reagents.has_reagent("plantbgone"))
+		if(smoke.reagents.has_reagent(/datum/reagent/toxin/plantbgone))
 			die_off()
 			return
 

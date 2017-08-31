@@ -95,8 +95,14 @@
 	return 1
 
 /mob/living/carbon/human/breathe()
-	if(!in_stasis)
-		..()
+	var/species_organ = species.breathing_organ
+
+	if(!in_stasis && species_organ)
+		var/active_breaths = 0
+		var/obj/item/organ/internal/lungs/L = internal_organs_by_name[species_organ]
+		if(L)
+			active_breaths = L.active_breathing
+		..(active_breaths)
 
 // Calculate how vulnerable the human is to under- and overpressure.
 // Returns 0 (equals 0 %) if sealed in an undamaged suit, 1 if unprotected (equals 100%).
@@ -217,11 +223,11 @@
 		var/damage = 0
 		radiation -= 1 * RADIATION_SPEED_COEFFICIENT
 		if(prob(25))
-			damage = 1
+			damage = 2
 
 		if (radiation > 50)
-			damage = 1
-			radiation -= 1 * RADIATION_SPEED_COEFFICIENT
+			damage = 2
+			radiation -= 2 * RADIATION_SPEED_COEFFICIENT
 			if(!isSynthetic())
 				if(prob(5) && prob(100 * RADIATION_SPEED_COEFFICIENT))
 					radiation -= 5 * RADIATION_SPEED_COEFFICIENT
@@ -238,7 +244,7 @@
 
 		if (radiation > 75)
 			damage = 3
-			radiation -= 1 * RADIATION_SPEED_COEFFICIENT
+			radiation -= 3 * RADIATION_SPEED_COEFFICIENT
 			if(!isSynthetic())
 				if(prob(5))
 					take_overall_damage(0, 5 * RADIATION_SPEED_COEFFICIENT, used_weapon = "Radiation Burns")
@@ -248,7 +254,7 @@
 					emote("gasp")
 		if(radiation > 150)
 			damage = 8
-			radiation -= 1 * RADIATION_SPEED_COEFFICIENT
+			radiation -= 4 * RADIATION_SPEED_COEFFICIENT
 
 		if(damage)
 			damage *= isSynthetic() ? 0.5 : species.radiation_mod
@@ -298,23 +304,17 @@
 /mob/living/carbon/human/handle_breath(datum/gas_mixture/breath)
 	if(status_flags & GODMODE)
 		return
-	var/obj/item/organ/internal/lungs/L = internal_organs_by_name[BP_LUNGS]
-	if(nervous_system_failure() || (!L && should_have_organ(BP_LUNGS)))
+	var/species_organ = species.breathing_organ
+	if(!species_organ)
+		return
+
+	var/obj/item/organ/internal/lungs/L = internal_organs_by_name[species_organ]
+	if(!L || nervous_system_failure())
 		failed_last_breath = 1
+		breath_fail_ratio = 1
 	else
 		failed_last_breath = L.handle_breath(breath) //if breath is null or vacuum, the lungs will handle it for us
-
-	if(failed_last_breath && !isSynthetic() )
-		if(prob(15) && !nervous_system_failure())
-			if(!is_asystole())
-				emote("gasp")
-			else
-				emote(pick("shiver","twitch"))
-		adjustOxyLoss(HUMAN_MAX_OXYLOSS)
-
-		oxygen_alert = max(oxygen_alert, 1)
-		return 0
-	return 1
+	return !failed_last_breath
 
 /mob/living/carbon/human/handle_environment(datum/gas_mixture/environment)
 	if(!environment)
@@ -347,7 +347,7 @@
 	if(relative_density > 0.02) //don't bother if we are in vacuum or near-vacuum
 		var/loc_temp = environment.temperature
 
-		if(adjusted_pressure < species.warning_high_pressure && adjusted_pressure > species.warning_low_pressure && abs(loc_temp - bodytemperature) < 20 && bodytemperature < species.heat_level_1 && bodytemperature > species.cold_level_1)
+		if(adjusted_pressure < species.warning_high_pressure && adjusted_pressure > species.warning_low_pressure && abs(loc_temp - bodytemperature) < 20 && bodytemperature < species.heat_level_1 && bodytemperature > species.cold_level_1 && species.body_temperature)
 			pressure_alert = 0
 			return // Temperatures are within normal ranges, fuck all this processing. ~Ccomp
 
@@ -565,9 +565,9 @@
 		nutrition = max (0, nutrition - species.hunger_factor)
 
 	if(!isSynthetic() && (species.flags & IS_PLANT))
+
 		if(nutrition < 10)
 			take_overall_damage(2,0)
-
 			//traumatic_shock is updated every tick, incrementing that is pointless - shock_stage is the counter.
 			//Not that it matters much for diona, who have NO_PAIN.
 			shock_stage++
@@ -602,9 +602,6 @@
 			if (prob(10) && nutrition > 70)
 				for(var/limb_type in species.has_limbs)
 					var/obj/item/organ/external/E = organs_by_name[limb_type]
-					for(var/datum/wound/W in E.wounds)
-						if (W.wound_damage() == 0 && prob(50))
-							E.wounds -= W
 					if(E && !E.is_usable())
 						E.removed()
 						qdel(E)
@@ -617,6 +614,10 @@
 						to_chat(src, "<span class='warning'>Some of your nymphs split and hurry to reform your [O.name].</span>")
 						nutrition -= 60
 						update_body()
+					else
+						for(var/datum/wound/W in E.wounds)
+							if (W.wound_damage() == 0 && prob(50))
+								E.wounds -= W
 
 	// TODO: stomach and bloodstream organ.
 	if(!isSynthetic())
@@ -855,7 +856,9 @@
 			if(hal_screwyhud == 4 || phoron_alert)	toxin.icon_state = "tox1"
 			else									toxin.icon_state = "tox0"
 		if(oxygen)
-			if(hal_screwyhud == 3 || oxygen_alert)	oxygen.icon_state = "oxy1"
+			if(hal_screwyhud == 3 || oxygen_alert)
+				if(oxygen_alert == 1)				oxygen.icon_state = "oxy1"
+				else								oxygen.icon_state = "oxy2"
 			else									oxygen.icon_state = "oxy0"
 		if(fire)
 			if(fire_alert)							fire.icon_state = "fire[fire_alert]" //fire_alert is either 0 if no alert, 1 for cold and 2 for heat.
@@ -914,16 +917,28 @@
 		return
 
 	// Puke if toxloss is too high
-	if(!stat)
-		if (getToxLoss() >= 45 && nutrition > 20)
-			spawn vomit()
+	var/vomit_score = 0
+	for(var/tag in list(BP_LIVER,BP_KIDNEYS))
+		var/obj/item/organ/internal/I = internal_organs_by_name[tag]
+		if(I)
+			vomit_score += I.damage
+		else if (should_have_organ(tag))
+			vomit_score += 45
+	if(chem_effects[CE_TOXIN] || radiation)
+		vomit_score += 0.5 * getToxLoss()
+	if(chem_effects[CE_ALCOHOL_TOXIC])
+		vomit_score += 10 * chem_effects[CE_ALCOHOL_TOXIC]
+	if(chem_effects[CE_ALCOHOL])
+		vomit_score += 10
+	if(stat != DEAD && vomit_score > 25 && prob(10))
+		spawn vomit(1, vomit_score, vomit_score/25)
 
 	//0.1% chance of playing a scary sound to someone who's in complete darkness
 	if(isturf(loc) && rand(1,1000) == 1)
 		var/turf/T = loc
 		if(T.get_lumcount() <= LIGHTING_SOFT_THRESHOLD)
-			playsound_local(src,pick(scarySounds),50, 1, -1)
-	
+			playsound_local(src,pick(GLOB.scarySounds),50, 1, -1)
+
 	var/area/A = get_area(src)
 	if(client && world.time >= client.played + 600)
 		A.play_ambience(src)
@@ -1092,9 +1107,9 @@
 			if(I)
 				perpname = I.registered_name
 
-		for(var/datum/data/record/E in data_core.general)
+		for(var/datum/data/record/E in GLOB.data_core.general)
 			if(E.fields["name"] == perpname)
-				for (var/datum/data/record/R in data_core.security)
+				for (var/datum/data/record/R in GLOB.data_core.security)
 					if((R.fields["id"] == E.fields["id"]) && (R.fields["criminal"] == "*Arrest*"))
 						holder.icon_state = "hudwanted"
 						break
@@ -1138,8 +1153,8 @@
 		var/image/holder = hud_list[SPECIALROLE_HUD]
 		holder.icon_state = "hudblank"
 		if(mind && mind.special_role)
-			if(hud_icon_reference[mind.special_role])
-				holder.icon_state = hud_icon_reference[mind.special_role]
+			if(GLOB.hud_icon_reference[mind.special_role])
+				holder.icon_state = GLOB.hud_icon_reference[mind.special_role]
 			else
 				holder.icon_state = "hudsyndicate"
 			hud_list[SPECIALROLE_HUD] = holder
@@ -1174,7 +1189,7 @@
 
 /mob/living/carbon/human/handle_vision()
 	if(client)
-		client.screen.Remove(global_hud.nvg, global_hud.thermal, global_hud.meson, global_hud.science)
+		client.screen.Remove(GLOB.global_hud.nvg, GLOB.global_hud.thermal, GLOB.global_hud.meson, GLOB.global_hud.science)
 	if(machine)
 		var/viewflags = machine.check_eye(src)
 		machine.apply_visual(src)

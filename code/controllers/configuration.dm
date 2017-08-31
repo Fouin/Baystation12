@@ -103,8 +103,8 @@ var/list/gamemode_cache = list()
 
 	//Alert level description
 	var/alert_desc_green = "All threats to the station have passed. Security may not have weapons visible, privacy laws are once again fully enforced."
-	var/alert_desc_blue_upto = "The station has received reliable information about possible hostile activity on the station. Security staff may have weapons visible, random searches are permitted."
-	var/alert_desc_blue_downto = "The immediate threat has passed. Security may no longer have weapons drawn at all times, but may continue to have them visible. Random searches are still allowed."
+	var/alert_desc_orange_upto = "The station has received reliable information about possible hostile activity on the station. Security staff may have weapons visible, random searches are permitted."
+	var/alert_desc_orange_downto = "The immediate threat has passed. Security may no longer have weapons drawn at all times, but may continue to have them visible. Random searches are still allowed."
 	var/alert_desc_red_upto = "There is an immediate serious threat to the station. Security may have weapons unholstered at all times. Random searches are allowed and advised."
 	var/alert_desc_red_downto = "The self-destruct mechanism has been deactivated, there is still however an immediate serious threat to the station. Security may have weapons unholstered at all times, random searches are allowed and advised."
 	var/alert_desc_delta = "The station's self-destruct mechanism has been engaged. All crew are instructed to obey all instructions given by heads of staff. Any violations of these orders can be punished by death. This is not a drill."
@@ -224,6 +224,11 @@ var/list/gamemode_cache = list()
 	var/radiation_lower_limit = 0.35 //If the radiation level for a turf would be below this, ignore it.
 
 	var/autostealth = 0 // Staff get automatic stealth after this many minutes
+
+	var/error_cooldown = 600 // The "cooldown" time for each occurrence of a unique error
+	var/error_limit = 50 // How many occurrences before the next will silence them
+	var/error_silence_time = 6000 // How long a unique error will be silenced for
+	var/error_msg_delay = 50 // How long to wait between messaging admins about occurrences of a unique error
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -548,11 +553,11 @@ var/list/gamemode_cache = list()
 				if("alert_red_downto")
 					config.alert_desc_red_downto = value
 
-				if("alert_blue_downto")
-					config.alert_desc_blue_downto = value
+				if("alert_orange_downto")
+					config.alert_desc_orange_downto = value
 
-				if("alert_blue_upto")
-					config.alert_desc_blue_upto = value
+				if("alert_orange_upto")
+					config.alert_desc_orange_upto = value
 
 				if("alert_green")
 					config.alert_desc_green = value
@@ -746,6 +751,16 @@ var/list/gamemode_cache = list()
 				if("radiation_lower_limit")
 					radiation_lower_limit = text2num(value)
 
+
+				if("error_cooldown")
+					error_cooldown = text2num(value)
+				if("error_limit")
+					error_limit = text2num(value)
+				if("error_silence_time")
+					error_silence_time = text2num(value)
+				if("error_msg_delay")
+					error_msg_delay = text2num(value)
+
 				else
 					log_misc("Unknown setting in configuration: '[name]'")
 
@@ -853,48 +868,6 @@ var/list/gamemode_cache = list()
 			else
 				log_misc("Unknown setting in configuration: '[name]'")
 
-/datum/configuration/proc/loadforumsql(filename)  // -- TLE
-	var/list/Lines = file2list(filename)
-	for(var/t in Lines)
-		if(!t)	continue
-
-		t = trim(t)
-		if (length(t) == 0)
-			continue
-		else if (copytext(t, 1, 2) == "#")
-			continue
-
-		var/pos = findtext(t, " ")
-		var/name = null
-		var/value = null
-
-		if (pos)
-			name = lowertext(copytext(t, 1, pos))
-			value = copytext(t, pos + 1)
-		else
-			name = lowertext(t)
-
-		if (!name)
-			continue
-
-		switch (name)
-			if ("address")
-				forumsqladdress = value
-			if ("port")
-				forumsqlport = value
-			if ("database")
-				forumsqldb = value
-			if ("login")
-				forumsqllogin = value
-			if ("password")
-				forumsqlpass = value
-			if ("activatedgroup")
-				forum_activated_group = value
-			if ("authenticatedgroup")
-				forum_authenticated_group = value
-			else
-				log_misc("Unknown setting in configuration: '[name]'")
-
 /datum/configuration/proc/pick_mode(mode_name)
 	// I wish I didn't have to instance the game modes in order to look up
 	// their information, but it is the only way (at least that I know of).
@@ -919,3 +892,9 @@ var/list/gamemode_cache = list()
 			config.python_path = "/usr/bin/env python2"
 		else //probably windows, if not this should work anyway
 			config.python_path = "python"
+
+/datum/configuration/proc/load_event(filename)
+	var/event_info = file2text(filename)
+
+	if (event_info)
+		custom_event_msg = event_info

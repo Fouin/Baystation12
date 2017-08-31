@@ -39,7 +39,7 @@
 		return
 	var/list/turfs = list()
 	for(var/turf/T in orange(origin, outer_range))
-		if(!(T.z in using_map.sealed_levels)) // Picking a turf outside the map edge isn't recommended
+		if(!(T.z in GLOB.using_map.sealed_levels)) // Picking a turf outside the map edge isn't recommended
 			if(T.x >= world.maxx-TRANSITIONEDGE || T.x <= TRANSITIONEDGE)	continue
 			if(T.y >= world.maxy-TRANSITIONEDGE || T.y <= TRANSITIONEDGE)	continue
 		if(!inner_range || get_dist(origin, T) >= inner_range)
@@ -78,6 +78,9 @@
 
 /proc/is_station_turf(var/turf/T)
 	return T && isStationLevel(T.z)
+
+/proc/has_air(var/turf/T)
+	return !!T.return_air()
 
 /proc/IsTurfAtmosUnsafe(var/turf/T)
 	if(istype(T, /turf/space)) // Space tiles

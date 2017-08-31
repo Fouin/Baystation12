@@ -237,7 +237,7 @@
 	var/obj/effect/cultwall/wall = null
 
 /obj/effect/rune/wall/Destroy()
-	qdel_null(wall)
+	QDEL_NULL(wall)
 	return ..()
 
 /obj/effect/rune/wall/cast(var/mob/living/user)
@@ -331,7 +331,7 @@
 	user.visible_message("<span class='warning'>\The [user]'s eyes glow blue as \he freezes in place, absolutely motionless.</span>", "<span class='warning'>The shadow that is your spirit separates itself from your body. You are now in the realm beyond. While this is a great sight, being here strains your mind and body. Hurry...</span>", "You hear only complete silence for a moment.")
 	announce_ghost_joinleave(user.ghostize(1), 1, "You feel that they had to use some [pick("dark", "black", "blood", "forgotten", "forbidden")] magic to [pick("invade", "disturb", "disrupt", "infest", "taint", "spoil", "blight")] this place!")
 	var/mob/observer/ghost/soul
-	for(var/mob/observer/ghost/O in ghost_mob_list_)
+	for(var/mob/observer/ghost/O in GLOB.ghost_mob_list)
 		if(O.key == tmpkey)
 			soul = O
 			break
@@ -488,10 +488,10 @@
 		victim = M
 	if(!victim)
 		return fizzle(user)
-	if(!victim.vessel.has_reagent("blood", 20))
+	if(!victim.vessel.has_reagent(/datum/reagent/blood, 20))
 		to_chat(user, "<span class='warning'>This body has no blood in it.</span>")
 		return fizzle(user)
-	victim.vessel.remove_reagent("blood", 20)
+	victim.vessel.remove_reagent(/datum/reagent/blood, 20)
 	admin_attack_log(user, victim, "Used a blood drain rune.", "Was victim of a blood drain rune.", "used a blood drain rune on")
 	speak_incantation(user, "Yu[pick("'","`")]gular faras desdae. Havas mithum javara. Umathar uf'kal thenar!")
 	user.visible_message("<span class='warning'>Blood flows from \the [src] into \the [user]!</span>", "<span class='cult'>The blood starts flowing from \the [src] into your frail mortal body. [capitalize(english_list(heal_user(user), nothing_text = "you feel no different"))].</span>", "You hear liquid flow.")
@@ -505,7 +505,7 @@
 	var/use
 	use = min(charges, user.species.blood_volume - user.vessel.total_volume)
 	if(use > 0)
-		user.vessel.add_reagent("blood", use)
+		user.vessel.add_reagent(/datum/reagent/blood, use)
 		charges -= use
 		statuses += "you regain lost blood"
 		if(!charges)
@@ -558,14 +558,13 @@
 				damaged -= fix
 	/* this is going to need rebalancing
 	if(charges)
-		user.ingested.add_reagent("hell_water", charges)
+		user.ingested.add_reagent(/datum/reagent/hell_water, charges)
 		statuses += "you feel empowered"
 	*/
 	return statuses
 
 /datum/reagent/hell_water
 	name = "Hell water"
-	id = "hell_water"
 	reagent_state = LIQUID
 	color = "#0050a177"
 	metabolism = REM * 0.1
@@ -799,7 +798,7 @@
 			return
 		speak_incantation(user, "Uhrast ka'hfa heldsagen ver[pick("'","`")]lot!")
 		to_chat(user, "<span class='warning'>In the last moment of your humble life, you feel an immense pain as fabric of reality mends... with your blood.</span>")
-		for(var/mob/M in living_mob_list_)
+		for(var/mob/M in GLOB.living_mob_list_)
 			if(iscultist(M))
 				to_chat(M, "You see a vision of \the [user] keeling over dead, his blood glowing blue as it escapes \his body and dissipates into thin air; you hear an otherwordly scream and feel that a great disaster has just been averted.")
 			else

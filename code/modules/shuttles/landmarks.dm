@@ -26,7 +26,8 @@
 	base_area = locate(base_area || world.area)
 	name = name + " ([x],[y])"
 
-/obj/effect/shuttle_landmark/initialize()
+/obj/effect/shuttle_landmark/Initialize()
+	. = ..()
 	if(docking_controller)
 		var/docking_tag = docking_controller
 		docking_controller = locate(docking_tag)
@@ -49,6 +50,8 @@
 			return TRUE //collides with edge of map
 		if(target.loc != base_area)
 			return TRUE //collides with another area
+		if(target.density)
+			return TRUE //dense turf
 	return FALSE
 
 //Self-naming/numbering ones.
@@ -61,9 +64,10 @@
 	tag = landmark_tag+"-[x]-[y]"
 	..()
 
-/obj/effect/shuttle_landmark/automatic/initialize()
-	..()
-	if(!using_map.use_overmap)
+/obj/effect/shuttle_landmark/automatic/Initialize()
+	. = ..()
+	base_area = get_area(src)
+	if(!GLOB.using_map.use_overmap)
 		return
 	var/obj/effect/overmap/O = map_sectors["[z]"]
 	if(!istype(O))
@@ -72,6 +76,20 @@
 		O.restricted_waypoints += src
 	else
 		O.generic_waypoints  += src
+
+//Subtype that calls explosion on init to clear space for shuttles
+/obj/effect/shuttle_landmark/automatic/clearing
+	var/radius = 10
+
+/obj/effect/shuttle_landmark/automatic/clearing/Initialize()
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/shuttle_landmark/automatic/clearing/LateInitialize()
+	var/list/victims = circlerangeturfs(get_turf(src),radius)
+	for(var/turf/T in victims)
+		if(T.density)
+			T.ChangeTurf(get_base_turf_by_area(T))
 
 /obj/item/device/spaceflare
 	name = "bluespace flare"

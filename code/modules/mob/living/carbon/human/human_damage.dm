@@ -139,27 +139,31 @@
 
 // Defined here solely to take species flags into account without having to recast at mob/living level.
 /mob/living/carbon/human/getOxyLoss()
-	if(should_have_organ(BP_LUNGS))
-		var/obj/item/organ/internal/lungs/lungs = internal_organs_by_name[BP_LUNGS]
-		if(!lungs)
+	if(!need_breathe())
+		return 0
+	else
+		var/obj/item/organ/internal/lungs/breathe_organ = internal_organs_by_name[species.breathing_organ]
+		if(!breathe_organ)
 			return maxHealth/2
-		return lungs.get_oxygen_deprivation()
-	return 0
+		return breathe_organ.get_oxygen_deprivation()
 
 /mob/living/carbon/human/setOxyLoss(var/amount)
-	adjustOxyLoss(getOxyLoss()-amount)
+	if(!need_breathe())
+		return 0
+	else
+		adjustOxyLoss(getOxyLoss()-amount)
 
 /mob/living/carbon/human/adjustOxyLoss(var/amount)
-	if(!should_have_organ(BP_LUNGS))
+	if(!need_breathe())
 		return
 	var/heal = amount < 0
 	amount = abs(amount*species.oxy_mod)
-	var/obj/item/organ/internal/lungs/lungs = internal_organs_by_name[BP_LUNGS]
-	if(lungs)
+	var/obj/item/organ/internal/lungs/breathe_organ = internal_organs_by_name[species.breathing_organ]
+	if(breathe_organ)
 		if(heal)
-			lungs.remove_oxygen_deprivation(amount)
+			breathe_organ.remove_oxygen_deprivation(amount)
 		else
-			lungs.add_oxygen_deprivation(amount)
+			breathe_organ.add_oxygen_deprivation(amount)
 	BITSET(hud_updateflag, HEALTH_HUD)
 
 /mob/living/carbon/human/getToxLoss()
@@ -167,7 +171,7 @@
 		return 0
 	var/amount = 0
 	for(var/obj/item/organ/internal/I in internal_organs)
-		if(I.organ_tag == BP_BRAIN)
+		if(I.organ_tag in list(BP_BRAIN, BP_STACK))
 			continue
 		amount += I.damage
 	return amount
@@ -186,7 +190,7 @@
 	amount = abs(amount)
 
 	if(!heal && (CE_ANTITOX in chem_effects))
-		amount *= 0.75
+		amount *= 1 - (chem_effects[CE_ANTITOX] * 0.25)
 
 	var/list/pick_organs = shuffle(internal_organs.Copy())
 
@@ -326,7 +330,7 @@ This function restores the subjects blood to max.
 	if(!should_have_organ(BP_HEART))
 		return
 	if(vessel.total_volume < species.blood_volume)
-		vessel.add_reagent("blood", species.blood_volume - vessel.total_volume)
+		vessel.add_reagent(/datum/reagent/blood, species.blood_volume - vessel.total_volume)
 
 /*
 This function restores all organs.
@@ -411,3 +415,8 @@ This function restores all organs.
 		traumatic_shock *= 0.5
 
 	return max(0,traumatic_shock)
+
+/mob/living/carbon/human/apply_effect(var/effect = 0,var/effecttype = STUN, var/blocked = 0)
+	if(effecttype == IRRADIATE && (effect * blocked_mult(blocked) <= RAD_LEVEL_LOW))
+		return 0
+	return ..()

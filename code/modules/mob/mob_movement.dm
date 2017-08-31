@@ -58,15 +58,16 @@
 				to_chat(usr, "<span class='warning'>This mob type cannot throw items.</span>")
 			return
 		if(NORTHWEST)
-			if(iscarbon(usr))
-				var/mob/living/carbon/C = usr
-				if(!C.get_active_hand())
-					to_chat(usr, "<span class='warning'>You have nothing to drop in your hand.</span>")
-					return
-				drop_item()
-			else
-				to_chat(usr, "<span class='warning'>This mob type cannot drop items.</span>")
-			return
+			mob.hotkey_drop()
+
+/mob/proc/hotkey_drop()
+	to_chat(usr, "<span class='warning'>This mob type cannot drop items.</span>")
+
+/mob/living/carbon/hotkey_drop()
+	if(!get_active_hand())
+		to_chat(usr, "<span class='warning'>You have nothing to drop in your hand.</span>")
+	else
+		drop_item()
 
 //This gets called when you press the delete button.
 /client/verb/delete_key_pressed()
@@ -322,38 +323,39 @@
 		//We are now going to move
 		moving = 1
 		//Something with pulling things
-		if(locate(/obj/item/weapon/grab, mob))
-			move_delay = max(move_delay, world.time + 7)
-			var/list/L = mob.ret_grab()
-			if(istype(L, /list))
-				if(L.len == 2)
-					L -= mob
-					var/mob/M = L[1]
-					if(M)
-						if ((get_dist(mob, M) <= 1 || M.loc == mob.loc))
-							var/turf/T = mob.loc
-							. = ..()
-							if (isturf(M.loc))
-								var/diag = get_dir(mob, M)
-								if ((diag - 1) & diag)
-								else
-									diag = null
-								if ((get_dist(mob, M) > 1 || diag))
-									step(M, get_dir(M.loc, T))
-				else
-					for(var/mob/M in L)
-						M.other_mobs = 1
-						if(mob != M)
-							M.animate_movement = 3
-					for(var/mob/M in L)
-						spawn( 0 )
-							step(M, direct)
-							return
-						spawn( 1 )
-							M.other_mobs = null
-							M.animate_movement = 2
-							return
-
+		if(locate(/obj/item/grab, mob))
+			for (var/obj/item/grab/G in mob)
+				move_delay = max(move_delay, world.time + G.grab_slowdown())
+				var/list/L = mob.ret_grab()
+				if(istype(L, /list))
+					if(L.len == 2)
+						L -= mob
+						var/mob/M = L[1]
+						if(M)
+							if ((get_dist(mob, M) <= 1 || M.loc == mob.loc))
+								var/turf/T = mob.loc
+								. = ..()
+								if (isturf(M.loc))
+									var/diag = get_dir(mob, M)
+									if ((diag - 1) & diag)
+									else
+										diag = null
+									if ((get_dist(mob, M) > 1 || diag))
+										step(M, get_dir(M.loc, T))
+					else
+						for(var/mob/M in L)
+							M.other_mobs = 1
+							if(mob != M)
+								M.animate_movement = 3
+						for(var/mob/M in L)
+							spawn( 0 )
+								step(M, direct)
+								return
+							spawn( 1 )
+								M.other_mobs = null
+								M.animate_movement = 2
+								return
+					G.adjust_position()
 		else
 			if(mob.confused)
 				switch(mob.m_intent)
@@ -367,11 +369,11 @@
 							n = get_step(mob, direct)
 			. = mob.SelfMove(n, direct)
 
-		for (var/obj/item/weapon/grab/G in mob)
-			if (G.state == GRAB_NECK)
-				mob.set_dir(reverse_dir[direct])
-			G.adjust_position()
-		for (var/obj/item/weapon/grab/G in mob.grabbed_by)
+		for (var/obj/item/grab/G in mob)
+			if (G.assailant_reverse_facing())
+				mob.set_dir(GLOB.reverse_dir[direct])
+			G.assailant_moved()
+		for (var/obj/item/grab/G in mob.grabbed_by)
 			G.adjust_position()
 
 		moving = 0

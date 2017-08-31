@@ -8,7 +8,7 @@
 	clicksound = 'sound/machines/buttonbeep.ogg'
 	clickvol = 30
 	var/mob/living/carbon/human/occupant = null
-	var/list/available_chemicals = list("inaprovaline" = "Inaprovaline", "stoxin" = "Soporific", "paracetamol" = "Paracetamol", "anti_toxin" = "Dylovene", "dexalin" = "Dexalin")
+	var/list/available_chemicals = list("Inaprovaline" = /datum/reagent/inaprovaline, "Soporific" = /datum/reagent/soporific, "Paracetamol" = /datum/reagent/paracetamol, "Dylovene" = /datum/reagent/dylovene, "Dexalin" = /datum/reagent/dexalin)
 	var/obj/item/weapon/reagent_containers/glass/beaker = null
 	var/filtering = 0
 	var/pump
@@ -17,11 +17,9 @@
 	idle_power_usage = 15
 	active_power_usage = 200 //builtin health analyzer, dialysis machine, injectors.
 
-/obj/machinery/sleeper/New()
-	..()
+/obj/machinery/sleeper/Initialize()
+	. = ..()
 	beaker = new /obj/item/weapon/reagent_containers/glass/beaker/large(src)
-
-/obj/machinery/sleeper/initialize()
 	update_icon()
 
 /obj/machinery/sleeper/process()
@@ -56,7 +54,7 @@
 
 	ui_interact(user)
 
-/obj/machinery/sleeper/ui_interact(var/mob/user, var/ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = outside_state)
+/obj/machinery/sleeper/ui_interact(var/mob/user, var/ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.outside_state)
 	var/data[0]
 
 	data["power"] = stat & (NOPOWER|BROKEN) ? 0 : 1
@@ -64,8 +62,7 @@
 	var/list/reagents = list()
 	for(var/T in available_chemicals)
 		var/list/reagent = list()
-		reagent["id"] = T
-		reagent["name"] = available_chemicals[T]
+		reagent["name"] = T
 		if(occupant && occupant.reagents)
 			reagent["amount"] = occupant.reagents.get_reagent_amount(T)
 		reagents += list(reagent)
@@ -86,7 +83,7 @@
 	data["filtering"] = filtering
 	data["pump"] = pump
 
-	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	ui = GLOB.nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "sleeper.tmpl", "Sleeper UI", 600, 600, state = state)
 		ui.set_initial_data(data)
@@ -225,15 +222,16 @@
 		toggle_filter()
 		toggle_pump()
 
-/obj/machinery/sleeper/proc/inject_chemical(var/mob/living/user, var/chemical, var/amount)
+/obj/machinery/sleeper/proc/inject_chemical(var/mob/living/user, var/chemical_name, var/amount)
 	if(stat & (BROKEN|NOPOWER))
 		return
 
+	var/chemical_type = available_chemicals[chemical_name]
 	if(occupant && occupant.reagents)
-		if(occupant.reagents.get_reagent_amount(chemical) + amount <= 20)
+		if(occupant.reagents.get_reagent_amount(chemical_type) + amount <= 20)
 			use_power(amount * CHEM_SYNTH_ENERGY)
-			occupant.reagents.add_reagent(chemical, amount)
-			to_chat(user, "Occupant now has [occupant.reagents.get_reagent_amount(chemical)] units of [available_chemicals[chemical]] in their bloodstream.")
+			occupant.reagents.add_reagent(chemical_type, amount)
+			to_chat(user, "Occupant now has [occupant.reagents.get_reagent_amount(chemical_type)] unit\s of [chemical_name] in their bloodstream.")
 		else
 			to_chat(user, "The subject has too many chemicals.")
 	else

@@ -23,6 +23,10 @@
 
 	if(wear_mask)
 		skipface |= wear_mask.flags_inv & HIDEFACE
+	
+	//no accuately spotting headsets from across the room.
+	if(get_dist(user, src) > 3)
+		skipears = 1
 
 	var/list/msg = list("<span class='info'>*---------*\nThis is ")
 
@@ -308,9 +312,9 @@
 			perpname = name
 
 		if(perpname)
-			for (var/datum/data/record/E in data_core.general)
+			for (var/datum/data/record/E in GLOB.data_core.general)
 				if(E.fields["name"] == perpname)
-					for (var/datum/data/record/R in data_core.security)
+					for (var/datum/data/record/R in GLOB.data_core.security)
 						if(R.fields["id"] == E.fields["id"])
 							criminal = R.fields["criminal"]
 
@@ -330,9 +334,9 @@
 		else
 			perpname = src.name
 
-		for (var/datum/data/record/E in data_core.general)
+		for (var/datum/data/record/E in GLOB.data_core.general)
 			if (E.fields["name"] == perpname)
-				for (var/datum/data/record/R in data_core.general)
+				for (var/datum/data/record/R in GLOB.data_core.general)
 					if (R.fields["id"] == E.fields["id"])
 						medical = R.fields["p_stat"]
 
