@@ -45,3 +45,6 @@ var/const/NETWORK_SYNTHETIQUE  = "Synthetique"
 
 /obj/machinery/camera/network/synthetique
 	network = list(NETWORK_SYNTHETIQUE)
+
+/obj/machinery/camera/network/crescent
+	network = list(NETWORK_CRESCENT)

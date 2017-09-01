@@ -1,4 +1,3 @@
-
 /datum/map/dreyfus
 	name = "Dreyfus"
 	full_name = "SSNI Dreyfus"
@@ -9,7 +8,7 @@
 
 	station_levels = list(1,2,3,4,5,6)
 	admin_levels = list(8)
-	contact_levels = list(1,2,3,4,5,6)
+	contact_levels = list(1,2,3,4,5,6,8)
 	player_levels = list(1,2,3,4,5,6,7)
 	accessible_z_levels = list("1"=1,"2"=1,"3"=1,"4"=1,"5"=1,"6"=1,"7"=90)
 
@@ -42,10 +41,6 @@
 	evac_controller_type = /datum/evacuation_controller/shuttle
 
 /datum/map/dreyfus/perform_map_generation()
-	new /datum/random_map/automata/cave_system(null,1,1,3,255, 255) // Create the mining Z-level.
 	new /datum/random_map/noise/ore(null,1,1,3,64, 64)
-	new /datum/random_map/automata/cave_system(null,1,1,4,255, 255) // Create the mining Z-level.
 	new /datum/random_map/noise/ore(null,1,1,4,64, 64)
-	new /datum/random_map/automata/cave_system(null,1,1,2,255, 255) // Create the mining Z-level.
-	new /datum/random_map/noise/ore(null,1,1,2,64, 64)
 	return 1

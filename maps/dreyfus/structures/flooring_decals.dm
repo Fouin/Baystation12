@@ -1062,3 +1062,29 @@
 
 /obj/effect/floor_decal/solarpanel
 	icon_state = "solarpanel"
+
+
+
+/obj/effect/floor_decal/industrial/stencil
+	name = "number"
+	icon_state = "stencil-one"
+	alpha = 229
+
+/obj/effect/floor_decal/industrial/stencil/one
+	icon_state = "stencil-one"
+
+/obj/effect/floor_decal/industrial/stencil/one/yellow
+	icon_state = "stencil-one"
+	color = "#CFCF55"
+
+/obj/effect/floor_decal/industrial/stencil/two
+	icon_state = "stencil-two"
+
+/obj/effect/floor_decal/industrial/stencil/two/yellow
+	icon_state = "stencil-two"
+	color = "#CFCF55"
+
+
+/obj/effect/floor_decal/stairs
+	name = "stairs"
+	icon_state = "stairs"

@@ -216,8 +216,7 @@
 	initial_flooring = /decl/flooring/tiling/steel
 
 /turf/simulated/floor/tiled/steel/airless
-	oxygen = 0
-	nitrogen = 0
+	initial_gas = null
 
 /turf/simulated/floor/tiled/white
 	name = "floor"
@@ -238,41 +237,35 @@
 //ATMOS PREMADES
 /turf/simulated/floor/reinforced/airless
 	name = "reinforced floor"
-	oxygen = 0
-	nitrogen = 0
+	initial_gas = null
 	temperature = TCMB
 
 /turf/simulated/floor/airless
 	name = "plating"
-	oxygen = 0
-	nitrogen = 0
+	initial_gas = null
 	temperature = TCMB
 
 /turf/simulated/floor/tiled/airless
 	name = "floor"
-	oxygen = 0
-	nitrogen = 0
+	initial_gas = null
 	temperature = TCMB
 
 /turf/simulated/floor/bluegrid/airless
 	name = "floor"
-	oxygen = 0
-	nitrogen = 0
+	initial_gas = null
 	temperature = TCMB
 
 /turf/simulated/floor/greengrid/airless
 	name = "floor"
-	oxygen = 0
-	nitrogen = 0
+	initial_gas = null
 	temperature = TCMB
 
 /turf/simulated/floor/greengrid/nitrogen
-	oxygen = 0
+	initial_gas = list("nitrogen" = MOLES_N2STANDARD)
 
 /turf/simulated/floor/tiled/white/airless
 	name = "floor"
-	oxygen = 0
-	nitrogen = 0
+	initial_gas = null
 	temperature = TCMB
 
 // Placeholders
