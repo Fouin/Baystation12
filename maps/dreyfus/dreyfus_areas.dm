@@ -96,8 +96,8 @@
 	name = "Reception Securite"
 	icon_state = "security"
 
-/area/dreyfus/administration/sec/vestiaires
-	name = "Vestiaires Securite"
+/area/dreyfus/administration/sec/reserve
+	name = "Equipement Securite"
 	icon_state = "brig"
 
 /area/dreyfus/administration/sec/cellule
@@ -108,8 +108,12 @@
 	name = "Armurerie"
 	icon_state = "armory"
 
-/area/dreyfus/administration/sec/marshall
-	name = "Bureau Marshall"
+/area/dreyfus/administration/sec/bureau
+	name = "Bureaux Securite"
+	icon_state = "sec_hos"
+
+/area/dreyfus/administration/sec/bureau2
+	name = "Bureaux Detention"
 	icon_state = "sec_hos"
 
 /area/dreyfus/administration/bureaux/openspace
@@ -289,7 +293,7 @@
 	icon_state = "mining"
 
 /area/dreyfus/cargo/industrie/bureau_qm
-	name = "Bureau du Contremaitre"
+	name = "Remise"
 	icon_state = "quartoffice"
 
 /area/dreyfus/cargo/industrie/quartiers
@@ -305,28 +309,26 @@
 	icon_state = "robotics"
 
 /area/dreyfus/cargo/recherche/developpement
-	name = "Laboratoire Recherche et Developpement"
+	name = "Atelier Recherche et Developpement"
 	icon_state = "research"
 
-/area/dreyfus/cargo/recherche/salon
-	name = "Salon Pole Recherche"
-	icon_state = "research"
-
-/area/dreyfus/cargo/recherche/bureau_rd
-	name = "Bureau Superviseur"
-	icon_state = "quartoffice"
-
-/area/dreyfus/cargo/recherche/labo_xenoarch
-	name = "Laboratoire Xenoarcheologie"
-	icon_state = "xeno_lab"
-
-/area/dreyfus/cargo/recherche/labo_anomalies
-	name = "Laboratoire Anomalies"
-	icon_state = "anomaly"
+/area/dreyfus/cargo/recherche/toxins
+	name = "Atelier Pyrotechnique"
+	icon_state = "toxmix"
 
 /area/dreyfus/cargo/industrie/raffinerie/avantposte
 	name = "Avant-Poste"
 	icon_state = "mining"
+
+/area/dreyfus/cargo/industrie/raffinerie/avantposte/exterior
+	name = "Avant-Poste Exterieur"
+	icon_state = "mining"
+	flags = AREA_EXTERNAL
+	requires_power = 1
+	has_gravity = FALSE
+	base_turf = /turf/space
+
+
 
 /area/dreyfus/cargo/maintenance
 	icon_state = "fmaint"
@@ -339,7 +341,6 @@
 	icon_state = "panelsA"
 	flags = AREA_EXTERNAL
 	requires_power = 1
-	always_unpowered = 1
 	has_gravity = FALSE
 	base_turf = /turf/space
 
@@ -493,13 +494,6 @@ area/shuttle/lavalette/start
 area/shuttle/merc/start
 	name = "Chasseur Huon"
 	icon_state = "shuttlered"
-
-//Skipjack
-
-/area/skipjack_station
-	name = "Skipjack Stiletto"
-	icon_state = "yellow"
-	requires_power = 0
 
 //Pod areas
 

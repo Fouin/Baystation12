@@ -106,7 +106,7 @@
 	catcher.SetSize(7)
 	particle_catchers.Add(catcher)
 
-	processing_objects.Add(src)
+	GLOB.processing_objects.Add(src)
 
 /obj/effect/fusion_em_field/process()
 	//make sure the field generator is still intact
@@ -171,7 +171,7 @@
 	check_instability()
 	Radiate()
 	if(radiation)
-		radiation_repository.radiate(src, radiation)
+		radiation_repository.radiate(src, round(radiation*0.001))
 	return 1
 
 /obj/effect/fusion_em_field/proc/check_instability()
@@ -291,7 +291,7 @@
 	radiation += plasma_temperature/2
 	plasma_temperature = 0
 
-	radiation_repository.radiate(src, radiation)
+	radiation_repository.radiate(src, round(radiation*0.001))
 	Radiate()
 
 /obj/effect/fusion_em_field/proc/Radiate()
@@ -480,7 +480,7 @@
 	if(owned_core)
 		owned_core.owned_field = null
 		owned_core = null
-	processing_objects.Remove(src)
+	GLOB.processing_objects.Remove(src)
 	. = ..()
 
 /obj/effect/fusion_em_field/bullet_act(var/obj/item/projectile/Proj)

@@ -1,6 +1,6 @@
 /obj/item/weapon/paper/objectifs_dreyfus
 	name = "Objectifs de productions"
-	info = "Objectifs du service envoyés par les actionnaires :<br><br>"
+	info = "Objectifs du service envoyes par les actionnaires :<br><br>"
 	icon_state = "paper_words"
 
 /obj/item/weapon/paper/objectifs_dreyfus/New()
@@ -14,14 +14,14 @@
 	"<bold>multitools</bold>",
 	"<bold>scanners rayons-T (T-ray scanners)</bold>",
 	"<bold>outils de soudure (welding tools)</bold>",
-	"<bold>carte-mères de sas (airlock electronics)</bold>",
+	"<bold>carte-meres de sas (airlock electronics)</bold>",
 	"<bold>seringues (syringes)</bold>",
-	"<bold>béchers (glass beakers)</bold>",
+	"<bold>bechers (glass beakers)</bold>",
 	"<bold>minuteurs (timers)</bold>",
-	"<bold>néons (light tubs)</bold>",
+	"<bold>neons (light tubs)</bold>",
 	"<bold>ampoules (light bulbs)</bold>",
-	"<bold>caméras en kit (camera assemblies)</bold>",
-	"<bold>écrans d'ordinateur (console screens)</bold>" )
+	"<bold>cameras en kit (camera assemblies)</bold>",
+	"<bold>ecrans d'ordinateur (console screens)</bold>" )
 
 	var/amount_objectives_high
 	var/proba_objectives_high = rand(100)
@@ -56,4 +56,4 @@
 		products.Remove(S)
 
 
-	info+="<br>Il est impératif que les objectifs de productions soit respectés.<br><br>-Direction Centrale"
+	info+="<br>Il est imperatif que les objectifs de productions soit respectes.<br><br>-Direction Centrale"

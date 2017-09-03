@@ -24,6 +24,7 @@
 #define IS_TAJARA  5
 #define IS_XENOS   6
 #define IS_SLIME   8
+#define IS_NABBER  9
 
 #define CE_STABLE        "stable"       // Inaprovaline
 #define CE_ANTIBIOTIC    "antibiotic"   // Spaceacilin
@@ -38,6 +39,7 @@
 #define CE_OXYGENATED    "oxygen"       // Dexalin.
 #define CE_BRAIN_REGEN   "brainfix"     // Alkysine.
 #define CE_ANTIVIRAL     "antiviral"    // Anti-virus effect.
+#define CE_TOXIN         "toxins"       // Generic toxins, stops autoheal.
 
 //reagent flags
 #define IGNORE_MOB_SIZE 0x1

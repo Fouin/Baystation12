@@ -31,8 +31,8 @@
 
 /obj/item/weapon/defibrillator/Destroy()
 	. = ..()
-	qdel_null(paddles)
-	qdel_null(bcell)
+	QDEL_NULL(paddles)
+	QDEL_NULL(bcell)
 
 /obj/item/weapon/defibrillator/loaded //starts with regular power cell for R&D to replace later in the round.
 	bcell = /obj/item/weapon/cell/apc
@@ -278,7 +278,7 @@
 	if(!H.should_have_organ(BP_HEART))
 		return FALSE
 	var/obj/item/organ/internal/heart/heart = H.internal_organs_by_name[BP_HEART]
-	if(!heart || H.get_effective_blood_volume() < BLOOD_VOLUME_SURVIVE)
+	if(!heart || H.get_blood_volume() < BLOOD_VOLUME_SURVIVE)
 		return TRUE
 	return FALSE
 
@@ -531,7 +531,7 @@
 /obj/item/weapon/shockpaddles/standalone/Destroy()
 	. = ..()
 	if(fail_counter)
-		processing_objects.Remove(src)
+		GLOB.processing_objects.Remove(src)
 
 /obj/item/weapon/shockpaddles/standalone/check_charge(var/charge_amt)
 	return 1
@@ -544,7 +544,7 @@
 	if(fail_counter > 0)
 		radiation_repository.radiate(src, fail_counter--)
 	else
-		processing_objects.Remove(src)
+		GLOB.processing_objects.Remove(src)
 
 /obj/item/weapon/shockpaddles/standalone/emp_act(severity)
 	..()
@@ -559,7 +559,7 @@
 				to_chat(loc, "<span class='warning'>\The [src] feel pleasantly warm.</span>")
 
 	if(new_fail && !fail_counter)
-		processing_objects.Add(src)
+		GLOB.processing_objects.Add(src)
 	fail_counter = new_fail
 
 /obj/item/weapon/shockpaddles/standalone/traitor

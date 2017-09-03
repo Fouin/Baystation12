@@ -25,11 +25,11 @@ var/global/list/map_sectors = list()
 	name = "[x]-[y]"
 	var/list/numbers = list()
 
-	if(x == 1 || x == using_map.overmap_size)
+	if(x == 1 || x == GLOB.using_map.overmap_size)
 		numbers += list("[round(y/10)]","[round(y%10)]")
-		if(y == 1 || y == using_map.overmap_size)
+		if(y == 1 || y == GLOB.using_map.overmap_size)
 			numbers += "-"
-	if(y == 1 || y == using_map.overmap_size)
+	if(y == 1 || y == GLOB.using_map.overmap_size)
 		numbers += list("[round(x/10)]","[round(x%10)]")
 
 	for(var/i = 1 to numbers.len)
@@ -39,12 +39,12 @@ var/global/list/map_sectors = list()
 		if(y == 1)
 			I.pixel_y = 3
 			I.pixel_x = 5*i + 4
-		if(y == using_map.overmap_size)
+		if(y == GLOB.using_map.overmap_size)
 			I.pixel_y = world.icon_size - 9
 			I.pixel_x = 5*i + 4
 		if(x == 1)
 			I.pixel_x = 5*i - 2
-		if(x == using_map.overmap_size)
+		if(x == GLOB.using_map.overmap_size)
 			I.pixel_x = 5*i + 2
 		overlays += I
 
@@ -67,14 +67,14 @@ proc/toggle_move_stars(zlevel, direction)
 
 	if (moving_levels["[zlevel]"] != gen_dir)
 		moving_levels["[zlevel]"] = gen_dir
-		for(var/x = 1 to world.maxx)
-			for(var/y = 1 to world.maxy)
-				var/turf/space/T = locate(x,y,zlevel)
-				if (istype(T))
-					if(!gen_dir)
-						T.icon_state = "[((T.x + T.y) ^ ~(T.x * T.y)) % 25]"
-					else
-						T.icon_state = "speedspace_[gen_dir]_[rand(1,15)]"
-						for(var/atom/movable/AM in T)
-							if (!AM.anchored)
-								AM.throw_at(get_step(T,reverse_direction(direction)), 5, 1)
+		
+		var/list/spaceturfs = block(locate(1, 1, zlevel), locate(world.maxx, world.maxy, zlevel))
+		for(var/turf/space/T in spaceturfs)
+			if(!gen_dir)
+				T.icon_state = "[((T.x + T.y) ^ ~(T.x * T.y)) % 25]"
+			else
+				T.icon_state = "speedspace_[gen_dir]_[rand(1,15)]"
+				for(var/atom/movable/AM in T)
+					if (!AM.anchored)
+						AM.throw_at(get_step(T,reverse_direction(direction)), 5, 1)
+				sleep(-1)

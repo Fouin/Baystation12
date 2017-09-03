@@ -8,3 +8,9 @@
 	name = "identification card"
 	icon_state = "id"
 	job_access_type = /datum/job/ouvrier
+
+/obj/item/weapon/card/id/cargo/trader
+	name = "identification card"
+	icon_state = "id"
+	job_access_type = /datum/job/trader
+

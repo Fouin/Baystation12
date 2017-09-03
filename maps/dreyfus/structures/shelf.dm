@@ -14,7 +14,7 @@
 	verbs -= /obj/structure/table/verb/do_flip
 	verbs -= /obj/structure/table/proc/do_put
 
-/obj/structure/table/shelf/initialize()
+/obj/structure/table/shelf/Initialize()
 	..()
 
 /obj/structure/table/shelf/update_connections()

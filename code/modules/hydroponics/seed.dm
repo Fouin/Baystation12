@@ -137,13 +137,13 @@
 		has_edge = prob(get_trait(TRAIT_POTENCY)/5)
 
 	var/damage_flags = DAM_SHARP|(has_edge? DAM_EDGE : 0)
-	target.apply_damage(damage, BRUTE, target_limb, blocked, "Thorns", damage_flags)
+	target.apply_damage(damage, BRUTE, target_limb, blocked, damage_flags, "Thorns")
 
 // Adds reagents to a target.
 /datum/seed/proc/do_sting(var/mob/living/carbon/human/target, var/obj/item/fruit)
 	if(!get_trait(TRAIT_STINGS))
 		return
-	if(chems && chems.len)
+	if(chems && chems.len && target.reagents)
 
 		var/body_coverage = HEAD|FACE|EYES|UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 
@@ -216,7 +216,7 @@
 			closed_turfs |= T
 			valid_turfs |= T
 
-			for(var/dir in alldirs)
+			for(var/dir in GLOB.alldirs)
 				var/turf/neighbor = get_step(T,dir)
 				if(!neighbor || (neighbor in closed_turfs) || (neighbor in open_turfs))
 					continue
@@ -420,19 +420,19 @@
 
 	chems = list()
 	if(prob(80))
-		chems["nutriment"] = list(rand(1,10),rand(10,20))
+		chems[/datum/reagent/nutriment] = list(rand(1,10),rand(10,20))
 
 	var/additional_chems = rand(0,5)
 
 	if(additional_chems)
 		var/list/banned_chems = list(
-			"adminordrazine",
-			"nutriment",
-			"nanites"
+			/datum/reagent/adminordrazine,
+			/datum/reagent/nutriment,
+			/datum/reagent/nanites
 			)
 
 		for(var/x=1;x<=additional_chems;x++)
-			var/new_chem = pick(chemical_reagents_list)
+			var/new_chem = pick(GLOB.chemical_reagents_list)
 			if(new_chem in banned_chems)
 				continue
 			banned_chems += new_chem
@@ -707,7 +707,7 @@
 			else
 				product = new /obj/item/weapon/reagent_containers/food/snacks/grown(get_turf(user),name)
 			. += product
-				
+
 			if(get_trait(TRAIT_PRODUCT_COLOUR))
 				if(!istype(product, /mob))
 					product.color = get_trait(TRAIT_PRODUCT_COLOUR)

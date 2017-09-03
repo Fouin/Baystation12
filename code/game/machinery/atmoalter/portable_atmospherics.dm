@@ -22,11 +22,11 @@
 	return 1
 
 /obj/machinery/portable_atmospherics/Destroy()
-	qdel_null(air_contents)
-	qdel_null(holding)
+	QDEL_NULL(air_contents)
+	QDEL_NULL(holding)
 	. = ..()
 
-/obj/machinery/portable_atmospherics/initialize()
+/obj/machinery/portable_atmospherics/Initialize()
 	. = ..()
 	spawn()
 		var/obj/machinery/atmospherics/portables_connector/port = locate() in loc
@@ -130,9 +130,7 @@
 				to_chat(user, "<span class='notice'>Nothing happens.</span>")
 				return
 
-	else if ((istype(W, /obj/item/device/analyzer)) && Adjacent(user))
-		var/obj/item/device/analyzer/A = W
-		A.analyze_gases(src, user)
+	else if (istype(W, /obj/item/device/analyzer))
 		return
 
 	return

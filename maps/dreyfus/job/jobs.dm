@@ -3,19 +3,22 @@
 						/datum/job/assistant,
 						/datum/job/captain,
 						/datum/job/hop,
-						/datum/job/employe,
-						/datum/job/rd,
-						/datum/job/scientist,
-						/datum/job/doctor,
-						/datum/job/hos,
 						/datum/job/qm,
 						/datum/job/engineer,
 						/datum/job/cargo_tech,
 						/datum/job/mining,
 						/datum/job/ouvrier,
+						/datum/job/cgt,
+						/datum/job/scientist,
+						/datum/job/doctor,
+						/datum/job/trader,
+						/datum/job/hos,
+						/datum/job/officer,
 						/datum/job/chef,
 						/datum/job/chaplain,
 						/datum/job/janitor,
+						/datum/job/employe,
+						/datum/job/liaison,
 						/datum/job/ai,
 						/datum/job/cyborg,
 						)
@@ -59,8 +62,8 @@
 	minimal_player_age = 31
 	economic_modifier = 12
 	ideal_character_age = 45
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 1
+	spawn_positions = 1
 	alt_titles = list(
 		"Directeur R.H.",
 		"Directeur Finances",
@@ -71,21 +74,18 @@
 	)
 
 /datum/job/employe
-	title = "Employe Administratif"
+	title = "Secretaire"
 	supervisors = "les Directeurs"
 	minimal_player_age = 21
 	economic_modifier = 8
 	ideal_character_age = 30
-	total_positions = 5
-	spawn_positions = 5
+	total_positions = 2
+	spawn_positions = 2
 	selection_color = "#6161aa"
-	faction = "Station"
 	department_flag = COM
 	department = "Command"
 	alt_titles = list(
 		"Gestionnaire",
-		"Secretaire",
-		"Controleur",
 		)
 	outfit_type = /decl/hierarchy/outfit/job/dreyfus/employe
 	allowed_branches = list(
@@ -93,55 +93,44 @@
 	)
 	announced = 1
 	access = list(access_lawyer)
-	minimal_access = list(access_lawyer, access_heads)
+	minimal_access = list(access_lawyer)
 
-/datum/job/rd
-	title = "Superviseur"
-	supervisors = "le Directeur General"
+/datum/job/liaison
+	title = "Controleur de Gestion"
+	supervisors = "Nanotrasen Industries"
 	minimal_player_age = 21
-	economic_modifier = 9
-	ideal_character_age = 40
+	economic_modifier = 8
+	ideal_character_age = 30
 	total_positions = 1
 	spawn_positions = 1
-	alt_titles = list(
-		"Directeur Specialise."
-		)
+	selection_color = "#5151db"
+	department_flag = COM
+	department = "Command"
+	outfit_type = /decl/hierarchy/outfit/job/dreyfus/controleur
 	allowed_branches = list(
-		/datum/mil_branch/administration,
-		/datum/mil_branch/contractuel,
+		/datum/mil_branch/administration
 	)
-	outfit_type = /decl/hierarchy/outfit/job/science/superviseur
-	access = list(access_medical, access_medical_equip, access_morgue, access_genetics, access_heads, access_tox,
-			access_chemistry, access_virology, access_cmo, access_surgery, access_RC_announce,
-			access_keycard_auth, access_sec_doors, access_psychiatrist, access_eva, access_maint_tunnels, access_external_airlocks,
-			access_tox_storage, access_teleporter, access_sec_doors,
-			access_research, access_robotics, access_xenobiology, access_ai_upload, access_tech_storage,
-			access_RC_announce, access_keycard_auth, access_tcomsat, access_gateway, access_xenoarch, access_network, access_rd, access_research, access_medical, access_morgue, access_medical_equip)
-	minimal_access = list(access_medical, access_medical_equip, access_morgue, access_genetics, access_heads, access_tox,
-			access_chemistry, access_virology, access_cmo, access_surgery, access_RC_announce,
-			access_keycard_auth, access_sec_doors, access_psychiatrist, access_eva, access_maint_tunnels, access_external_airlocks,
-			access_tox_storage, access_teleporter, access_sec_doors,
-			access_research, access_robotics, access_xenobiology, access_ai_upload, access_tech_storage,
-			access_RC_announce, access_keycard_auth, access_tcomsat, access_gateway, access_xenoarch, access_network, access_rd, access_research, access_medical, access_morgue, access_medical_equip)
+	announced = 1
+	access = list(access_lawyer)
+	minimal_access = list(access_lawyer)
 
 /datum/job/scientist
-	title = "Scientifique"
-	supervisors = "le Superviseur"
+	title = "Technicien"
+	supervisors = "le Contremaitre"
 	minimal_player_age = 19
 	economic_modifier = 8
 	ideal_character_age = 30
 	total_positions = 3
 	spawn_positions = 3
 	alt_titles = list(
-		"Phyisicien",
+		"Artificier",
 		"Roboticien",
-		"Chimiste",
 		)
 	allowed_branches = list(
 		/datum/mil_branch/contractuel
 	)
-	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_xenoarch, access_robotics)
-	minimal_access = list(access_tox, access_tox_storage, access_research, access_xenoarch, access_robotics)
+	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_xenoarch, access_robotics, access_teleporter)
+	minimal_access = list(access_tox, access_tox_storage, access_research, access_xenoarch, access_robotics, access_teleporter) // Rajouter les téléscienecs
 
 /datum/job/doctor
 	selection_color = "#633d63"
@@ -176,6 +165,44 @@
 	allowed_branches = list(
 		/datum/mil_branch/contractuel
 	)
+	outfit_type = /decl/hierarchy/outfit/job/dreyfus/marshall
+
+/datum/job/officer
+	title = "Adjoint"
+	supervisors = "votre Compagnie et le Marshall"
+	minimal_player_age = 19
+	economic_modifier = 8
+	ideal_character_age = 30
+	total_positions = 1
+	spawn_positions = 1
+	alt_titles = list(
+		"Agent de Securite",
+		"Garde du Corps",
+		)
+	allowed_branches = list(
+		/datum/mil_branch/contractuel
+	)
+	outfit_type = /decl/hierarchy/outfit/job/dreyfus/adjoint
+
+/datum/job/trader
+	selection_color = "#2e7c3c"
+	title = "Courtier"
+	supervisors = "l'Offre et la Demande"
+	minimal_player_age = 16
+	economic_modifier = 8
+	ideal_character_age = 21
+	total_positions = 1
+	spawn_positions = 1
+	alt_titles = list(
+		"Negociant",
+		"Trader",
+		)
+	allowed_branches = list(
+		/datum/mil_branch/contractuel
+	)
+	access = list(access_maint_tunnels, access_mailsorting, access_trader)
+	minimal_access = list(access_maint_tunnels, access_mailsorting, access_trader)
+	outfit_type = /decl/hierarchy/outfit/job/dreyfus/trader
 
 /datum/job/qm
 	selection_color = "#3d3315"
@@ -263,7 +290,6 @@
 	ideal_character_age = 21
 	total_positions = 5
 	spawn_positions = 5
-	faction = "Station"
 	department_flag = SUP
 	department = "Supply"
 	alt_titles = list(
@@ -271,6 +297,29 @@
 		"Ouvrier Polyvalent",
 		)
 	outfit_type = /decl/hierarchy/outfit/job/dreyfus/ouvrier
+	allowed_branches = list(
+		/datum/mil_branch/ouvrier
+	)
+	announced = 1
+	access = list(access_cargo, access_maint_tunnels)
+	minimal_access = list(access_cargo, access_maint_tunnels)
+
+/datum/job/cgt
+	selection_color = "#7c2f2e"
+	title = "Responsable Ouvrier"
+	supervisors = "le Contremaitre"
+	minimal_player_age = 16
+	economic_modifier = 2
+	ideal_character_age = 21
+	total_positions = 5
+	spawn_positions = 5
+	department_flag = SUP
+	department = "Supply"
+	alt_titles = list(
+		"Delegue Syndical",
+		"Representant Ouvrier",
+		)
+	outfit_type = /decl/hierarchy/outfit/job/dreyfus/cgt
 	allowed_branches = list(
 		/datum/mil_branch/ouvrier
 	)

@@ -1,4 +1,4 @@
-#if !defined(USING_MAP_DATUM)
+#if !defined(using_map_DATUM)
 
 	#include "torch_announcements.dm"
 	#include "torch_areas.dm"
@@ -10,6 +10,7 @@
 	#include "torch_shuttles.dm"
 	#include "torch_unit_testing.dm"
 	#include "torch_gamemodes.dm"
+	#include "torch_antagonism.dm"
 
 	#include "datums/uniforms.dm"
 	#include "datums/uniforms_expedition.dm"
@@ -51,8 +52,6 @@
 	#include "loadout/loadout_xeno.dm"
 	#include "loadout/~defines.dm"
 
-	#include "../shared/exodus_torch/_include.dm"
-
 	#include "torch-1.dmm"
 	#include "torch-2.dmm"
 	#include "torch-3.dmm"
@@ -72,8 +71,9 @@
 	#include "../../code/modules/lobby_music/dilbert.dm"
 	#include "../../code/modules/lobby_music/space_oddity.dm"
 	#include "../../code/modules/lobby_music/Torch.dm"
+	#include "../../code/modules/lobby_music/title1.dm"
 
-	#define USING_MAP_DATUM /datum/map/torch
+	#define using_map_DATUM /datum/map/torch
 
 #elif !defined(MAP_OVERRIDE)
 
