@@ -293,7 +293,7 @@
 	icon_state = "mining"
 
 /area/dreyfus/cargo/industrie/bureau_qm
-	name = "Bureau du Contremaitre"
+	name = "Remise"
 	icon_state = "quartoffice"
 
 /area/dreyfus/cargo/industrie/quartiers

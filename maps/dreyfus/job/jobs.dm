@@ -3,22 +3,22 @@
 						/datum/job/assistant,
 						/datum/job/captain,
 						/datum/job/hop,
-						/datum/job/employe,
-						/datum/job/liaison,
-						/datum/job/scientist,
-						/datum/job/doctor,
-						/datum/job/trader,
-						/datum/job/hos,
-						/datum/job/officer,
 						/datum/job/qm,
 						/datum/job/engineer,
 						/datum/job/cargo_tech,
 						/datum/job/mining,
 						/datum/job/ouvrier,
 						/datum/job/cgt,
+						/datum/job/scientist,
+						/datum/job/doctor,
+						/datum/job/trader,
+						/datum/job/hos,
+						/datum/job/officer,
 						/datum/job/chef,
 						/datum/job/chaplain,
 						/datum/job/janitor,
+						/datum/job/employe,
+						/datum/job/liaison,
 						/datum/job/ai,
 						/datum/job/cyborg,
 						)
@@ -202,6 +202,7 @@
 	)
 	access = list(access_maint_tunnels, access_mailsorting, access_trader)
 	minimal_access = list(access_maint_tunnels, access_mailsorting, access_trader)
+	outfit_type = /decl/hierarchy/outfit/job/dreyfus/trader
 
 /datum/job/qm
 	selection_color = "#3d3315"
