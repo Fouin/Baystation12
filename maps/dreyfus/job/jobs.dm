@@ -182,7 +182,7 @@
 	allowed_branches = list(
 		/datum/mil_branch/contractuel
 	)
-	outfit_type = /decl/hierarchy/outfit/job/dreyfus/adjoint
+	outfit_type = /decl/hierarchy/outfit/job/dreyfus/adjointsec
 
 /datum/job/trader
 	selection_color = "#2e7c3c"

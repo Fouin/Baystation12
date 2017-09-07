@@ -103,7 +103,7 @@
 	pda_type = /obj/item/device/pda/heads/hos
 	backpack = /obj/item/weapon/storage/backpack
 
-/decl/hierarchy/outfit/job/dreyfus/adjoint
+/decl/hierarchy/outfit/job/dreyfus/adjointsec
 	name = OUTFIT_JOB_NAME("Adjoint")
 	l_ear = /obj/item/device/radio/headset/headset_sec
 	uniform = /obj/item/clothing/under/det/grey
