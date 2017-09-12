@@ -113,7 +113,7 @@
 		verb = speaking.get_spoken_verb(ending)
 	else
 		if(ending == "!")
-			verb=pick("s'éxclame","crie","hurle")
+			verb=pick("s'exclame","crie","hurle")
 		else if(ending == "?")
 			verb="demande"
 

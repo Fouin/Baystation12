@@ -22,8 +22,8 @@
 /datum/language/common
 	name = LANGUAGE_GALCOM
 	desc = "The common galactic tongue."
-	speech_verb = "says"
-	whisper_verb = "whispers"
+	speech_verb = "dit"
+	whisper_verb = "chuchotte"
 	key = "0"
 	flags = RESTRICTED
 	syllables = list("blah","blah","blah","bleh","meh","neh","nah","wah")
@@ -32,7 +32,7 @@
 /datum/language/common/get_spoken_verb(var/msg_end)
 	switch(msg_end)
 		if("!")
-			return pick("exclaims","shouts","yells") //TODO: make the basic proc handle lists of verbs.
+			return pick("s'exclame","crie","hurle") //TODO: make the basic proc handle lists of verbs.
 		if("?")
 			return ask_verb
 	return speech_verb
