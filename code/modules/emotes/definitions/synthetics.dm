@@ -10,22 +10,22 @@
 
 /decl/emote/audible/synth/ping
 	key = "ping"
-	emote_message_3p = "USER pings."
+	emote_message_3p = "USER fait bip."
 	emote_sound = 'sound/machines/ping.ogg'
 
 /decl/emote/audible/synth/buzz
 	key = "buzz"
-	emote_message_3p = "USER buzzes."
+	emote_message_3p = "USER fait buzz."
 	emote_sound = 'sound/machines/buzz-sigh.ogg'
 
 /decl/emote/audible/synth/confirm
 	key = "confirm"
-	emote_message_3p = "USER emits an affirmative blip."
+	emote_message_3p = "USER fait un bip affirmatif."
 	emote_sound = 'sound/machines/synth_yes.ogg'
 
 /decl/emote/audible/synth/deny
 	key = "deny"
-	emote_message_3p = "USER emits a negative blip."
+	emote_message_3p = "USER fait un boup négatif"
 	emote_sound = 'sound/machines/synth_no.ogg'
 
 /decl/emote/audible/synth/security

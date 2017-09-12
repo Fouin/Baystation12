@@ -48,3 +48,17 @@
 	new /datum/random_map/automata/cave_system(null,1,1,2,255, 255) // Create the mining Z-level.
 	new /datum/random_map/noise/ore(null,1,1,2,64, 64)
 	return 1
+
+/datum/map/torch/send_welcome()
+	var/welcome_text = "<center><font size = 3><b>SSNI Dreyfus</b></font><hr />"
+	welcome_text += "Message de bienvenue généré le [stationdate2text()] à [stationtime2text()].</center><br /><br />"
+	welcome_text += "Bienvenue à bord du SSNI Dreyfus, station de <b>[company_name()]</b> en orbite de Charnay-4, dans le système de Iota-Pavonis.<br />"
+	welcome_text += "Les ordres de productions sont disponibles auprès du Directeur Général.<br />"
+	welcome_text += "La température actuelle est de [rand(19,32)] degrès.<br />"
+	welcome_text += "Le dernier ravitaillement à eu lieu il y a [rand(7,30)] jours.<br />"
+	welcome_text += "<b>[company_name()]</b> vous souhaite une journée de travail heureuse et productive.<br />"
+
+
+
+	post_comm_message("SSNI Dreyfus Message de Bienvenue", welcome_text)
+	minor_announcement.Announce(message = "New [GLOB.using_map.company_name] Update available at all communication consoles.")

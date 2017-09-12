@@ -5,22 +5,22 @@
 #define TOPIC_REFRESH_UPDATE_PREVIEW (TOPIC_REFRESH|TOPIC_UPDATE_PREVIEW)
 
 /datum/category_group/player_setup_category/general_preferences
-	name = "General"
+	name = "Général"
 	sort_order = 1
 	category_item_type = /datum/category_item/player_setup_item/general
 
 /datum/category_group/player_setup_category/skill_preferences
-	name = "Skills"
+	name = "Compétences"
 	sort_order = 2
 	category_item_type = /datum/category_item/player_setup_item/skills
 
 /datum/category_group/player_setup_category/occupation_preferences
-	name = "Occupation"
+	name = "Postes"
 	sort_order = 3
 	category_item_type = /datum/category_item/player_setup_item/occupation
 
 /datum/category_group/player_setup_category/appearance_preferences
-	name = "Roles"
+	name = "Antagonisme"
 	sort_order = 4
 	category_item_type = /datum/category_item/player_setup_item/antagonism
 
@@ -30,12 +30,12 @@
 	category_item_type = /datum/category_item/player_setup_item/relations
 
 /datum/category_group/player_setup_category/loadout_preferences
-	name = "Loadout"
+	name = "Equipement"
 	sort_order = 6
 	category_item_type = /datum/category_item/player_setup_item/loadout
 
 /datum/category_group/player_setup_category/global_preferences
-	name = "Global"
+	name = "Paramètres"
 	sort_order = 7
 	category_item_type = /datum/category_item/player_setup_item/player_global
 

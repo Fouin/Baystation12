@@ -114,11 +114,11 @@ datum/preferences
 	var/dat = "<html><body><center>"
 
 	if(path)
-		dat += "Slot - "
-		dat += "<a href='?src=\ref[src];load=1'>Load slot</a> - "
-		dat += "<a href='?src=\ref[src];save=1'>Save slot</a> - "
-		dat += "<a href='?src=\ref[src];resetslot=1'>Reset slot</a> - "
-		dat += "<a href='?src=\ref[src];reload=1'>Reload slot</a>"
+		dat += "Personnage - "
+		dat += "<a href='?src=\ref[src];load=1'>Charger personnage</a> - "
+		dat += "<a href='?src=\ref[src];save=1'>Sauvegarder personnage</a> - "
+		dat += "<a href='?src=\ref[src];resetslot=1'>Réinitialiser personnage</a> - "
+		dat += "<a href='?src=\ref[src];reload=1'>Rafraîchir personnaget</a>"
 
 	else
 		dat += "Please create an account to save your preferences."
@@ -129,7 +129,7 @@ datum/preferences
 	dat += player_setup.content(user)
 
 	dat += "</html></body>"
-	var/datum/browser/popup = new(user, "Character Setup","Character Setup", 800, 800, src)
+	var/datum/browser/popup = new(user, "Création de Personnage","Création de Personnage", 800, 800, src)
 	popup.set_content(dat)
 	popup.open()
 

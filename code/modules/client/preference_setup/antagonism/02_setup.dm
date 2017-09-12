@@ -18,9 +18,9 @@
 	pref.uplinklocation	= sanitize_inlist(pref.uplinklocation, GLOB.uplink_locations, initial(pref.uplinklocation))
 
 /datum/category_item/player_setup_item/antagonism/basic/content(var/mob/user)
-	. +="<b>Antag Setup:</b><br>"
-	. +="Uplink Type: <a href='?src=\ref[src];antagtask=1'>[pref.uplinklocation]</a><br>"
-	. +="Exploitable information:<br>"
+	. +="<b>Configurations Antagonisme :</b><br>"
+	. +="Type de connection : <a href='?src=\ref[src];antagtask=1'>[pref.uplinklocation]</a><br>"
+	. +="Informations Exploitables :<br>"
 	if(jobban_isbanned(user, "Records"))
 		. += "<b>You are banned from using character records.</b><br>"
 	else

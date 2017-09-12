@@ -9,7 +9,7 @@
 /mob/verb/say_verb(message as text)
 	set name = "Say"
 	set category = "IC"
-	
+
 	if(typing_indicator)
 		qdel(typing_indicator)
 	usr.say(message)
@@ -67,11 +67,11 @@
 		return speaking.get_spoken_verb(ending)
 
 	var/verb = pick(speak_emote)
-	if(verb == "says") //a little bit of a hack, but we can't let speak_emote default to an empty list without breaking other things
+	if(verb == "dit") //a little bit of a hack, but we can't let speak_emote default to an empty list without breaking other things
 		if(ending == "!")
-			verb = pick("exclaims","shouts","yells")
+			verb = pick("s'exclame","crie","hurle")
 		else if(ending == "?")
-			verb ="asks"
+			verb ="demande"
 	return verb
 
 /mob/proc/get_ear()

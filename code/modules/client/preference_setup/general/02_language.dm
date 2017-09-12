@@ -3,7 +3,7 @@
 	var/list/language_prefixes   //Language prefix keys
 
 /datum/category_item/player_setup_item/general/language
-	name = "Language"
+	name = "Langues"
 	sort_order = 2
 
 /datum/category_item/player_setup_item/general/language/load_character(var/savefile/S)
@@ -17,7 +17,7 @@
 	sanitize_alt_languages()
 
 /datum/category_item/player_setup_item/general/language/content()
-	. += "<b>Languages</b><br>"
+	. += "<b>Langues</b><br>"
 	var/datum/species/S = all_species[pref.species]
 	if(S.language)
 		. += "- [S.language]<br>"
@@ -27,10 +27,10 @@
 		if(pref.alternate_languages.len)
 			for(var/i = 1 to pref.alternate_languages.len)
 				var/lang = pref.alternate_languages[i]
-				. += "- [lang] - <a href='?src=\ref[src];remove_language=[i]'>remove</a><br>"
+				. += "- [lang] - <a href='?src=\ref[src];remove_language=[i]'>retirer</a><br>"
 
 		if(pref.alternate_languages.len < S.num_alternate_languages)
-			. += "- <a href='?src=\ref[src];add_language=1'>add</a> ([S.num_alternate_languages - pref.alternate_languages.len] remaining)<br>"
+			. += "- <a href='?src=\ref[src];add_language=1'>ajouter</a> ([S.num_alternate_languages - pref.alternate_languages.len] restant(s))<br>"
 	else
 		. += "- [pref.species] cannot choose secondary languages.<br>"
 

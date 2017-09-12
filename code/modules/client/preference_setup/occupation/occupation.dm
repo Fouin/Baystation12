@@ -73,12 +73,12 @@
 
 	. = list()
 	. += "<tt><center>"
-	. += "<b>Choose occupation chances</b><br>Unavailable occupations are crossed out.<br>"
+	. += "<b>Choisissez vos priorités de sélections par postes.</b><br>Les postes innacessibles sont barrés.<br>"
 	if(GLOB.using_map.flags & MAP_HAS_BRANCH)
 
 		player_branch = mil_branches.get_branch(pref.char_branch)
 
-		. += "Branch of Service: <a href='?src=\ref[src];char_branch=1'>[pref.char_branch]</a>	"
+		. += "Classe : <a href='?src=\ref[src];char_branch=1'>[pref.char_branch]</a>	"
 	if(GLOB.using_map.flags & MAP_HAS_RANK)
 		player_rank = mil_branches.get_rank(pref.char_branch, pref.char_rank)
 
@@ -109,29 +109,29 @@
 		var/rank = job.title
 		lastJob = job
 		if(job.total_positions == 0 && job.spawn_positions == 0)
-			. += "<del>[rank]</del></td><td><b> \[UNAVAILABLE]</b></td></tr>"
+			. += "<del>[rank]</del></td><td><b> \[NON DISPONIBLE]</b></td></tr>"
 			continue
 		if(jobban_isbanned(user, rank))
-			. += "<del>[rank]</del></td><td><b> \[BANNED]</b></td></tr>"
+			. += "<del>[rank]</del></td><td><b> \[BANNI]</b></td></tr>"
 			continue
 		if(!job.player_old_enough(user.client))
 			var/available_in_days = job.available_in_days(user.client)
-			. += "<del>[rank]</del></td><td> \[IN [(available_in_days)] DAYS]</td></tr>"
+			. += "<del>[rank]</del></td><td> \[DANS [(available_in_days)] JOURS]</td></tr>"
 			continue
 		if(job.minimum_character_age && user.client && (user.client.prefs.age < job.minimum_character_age))
-			. += "<del>[rank]</del></td><td> \[MINIMUM CHARACTER AGE: [job.minimum_character_age]]</td></tr>"
+			. += "<del>[rank]</del></td><td> \[ÂGE MINIMUM : [job.minimum_character_age]]</td></tr>"
 			continue
 
 		if(!job.is_species_allowed(S))
-			. += "<del>[rank]</del></td><td><b> \[SPECIES RESTRICTED]</b></td></tr>"
+			. += "<del>[rank]</del></td><td><b> \[ESPÉCE RESTREINTE]</b></td></tr>"
 			continue
 
 		if(job.allowed_branches)
 			if(!player_branch)
-				. += "<del>[rank]</del></td><td><a href='?src=\ref[src];show_branches=[rank]'><b> \[BRANCH RESTRICTED]</b></a></td></tr>"
+				. += "<del>[rank]</del></td><td><a href='?src=\ref[src];show_branches=[rank]'><b> \[RESTREINT PAR CLASSE]</b></a></td></tr>"
 				continue
 			if(!is_type_in_list(player_branch, job.allowed_branches))
-				. += "<del>[rank]</del></td><td><a href='?src=\ref[src];show_branches=[rank]'><b> \[NOT FOR [player_branch.name_short]]</b></a></td></tr>"
+				. += "<del>[rank]</del></td><td><a href='?src=\ref[src];show_branches=[rank]'><b> \[NON DISPO. POUR [player_branch.name_short]]</b></a></td></tr>"
 				continue
 
 		if(job.allowed_ranks)
@@ -166,13 +166,13 @@
 			continue
 
 		if(pref.job_high == job.title)
-			. += " <font color=55cc55>\[High]</font>"
+			. += " <font color=55cc55>\[ÉLEVEE]</font>"
 		else if(job.title in pref.job_medium)
-			. += " <font color=eecc22>\[Medium]</font>"
+			. += " <font color=eecc22>\[MOYENNE]</font>"
 		else if(job.title in pref.job_low)
-			. += " <font color=cc5555>\[Low]</font>"
+			. += " <font color=cc5555>\[FAIBLE]</font>"
 		else
-			. += " <font color=black>\[NEVER]</font>"
+			. += " <font color=black>\[JAMAIS]</font>"
 		if(job.alt_titles)
 			. += "</a></td></tr><tr bgcolor='[lastJob.selection_color]'><td width='60%' align='center'>&nbsp</td><td><a href='?src=\ref[src];select_alt_title=\ref[job]'>\[[pref.GetPlayerAltTitle(job)]\]</a></td></tr>"
 		. += "</a></td></tr>"
