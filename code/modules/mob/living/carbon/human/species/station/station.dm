@@ -67,7 +67,7 @@
 
 /datum/species/human/get_ssd(var/mob/living/carbon/human/H)
 	if(H.stat == CONSCIOUS)
-		return "staring blankly, not reacting to your presence"
+		return "a le regard vide et ne réagit pas à votre présence"
 	return ..()
 
 /datum/species/unathi

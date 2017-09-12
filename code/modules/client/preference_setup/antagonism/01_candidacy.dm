@@ -38,20 +38,20 @@
 
 /datum/category_item/player_setup_item/antagonism/candidacy/content(var/mob/user)
 	. = list()
-	. += "<b>Special Role Availability:</b><br>"
+	. += "<b>Disponibilités Rôles Spéciaux :</b><br>"
 	. += "<table>"
 	var/list/all_antag_types = all_antag_types()
 	for(var/antag_type in all_antag_types)
 		var/datum/antagonist/antag = all_antag_types[antag_type]
 		. += "<tr><td>[antag.role_text]: </td><td>"
 		if(jobban_isbanned(preference_mob(), antag.id) || (antag.id == MODE_MALFUNCTION && jobban_isbanned(preference_mob(), "AI")))
-			. += "<span class='danger'>\[BANNED\]</span><br>"
+			. += "<span class='danger'>\[BANNI\]</span><br>"
 		else if(antag.role_type in pref.be_special_role)
-			. += "<span class='linkOn'>High</span> <a href='?src=\ref[src];del_special=[antag.role_type]'>Low</a> <a href='?src=\ref[src];add_never=[antag.role_type]'>Never</a></br>"
+			. += "<span class='linkOn'>Élevée</span> <a href='?src=\ref[src];del_special=[antag.role_type]'>Faible</a> <a href='?src=\ref[src];add_never=[antag.role_type]'>Jamais</a></br>"
 		else if(antag.role_type in pref.sometimes_be_special_role)
-			. += "<a href='?src=\ref[src];add_special=[antag.role_type]'>High</a> <span class='linkOn'>Low</span> <a href='?src=\ref[src];add_never=[antag.role_type]'>Never</a></br>"
+			. += "<a href='?src=\ref[src];add_special=[antag.role_type]'>Élevée</a> <span class='linkOn'>Faible</span> <a href='?src=\ref[src];add_never=[antag.role_type]'>Jamais</a></br>"
 		else
-			. += "<a href='?src=\ref[src];add_special=[antag.role_type]'>High</a> <a href='?src=\ref[src];del_special=[antag.role_type]'>Low</a> <span class='linkOn'>Never</span></br>"
+			. += "<a href='?src=\ref[src];add_special=[antag.role_type]'>Élevée</a> <a href='?src=\ref[src];del_special=[antag.role_type]'>Faible</a> <span class='linkOn'>Jamais</span></br>"
 		. += "</td></tr>"
 
 	var/list/ghost_traps = get_ghost_traps()

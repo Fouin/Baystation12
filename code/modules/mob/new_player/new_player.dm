@@ -29,19 +29,19 @@
 /mob/new_player/proc/new_player_panel_proc()
 	var/output = "<div align='center'>"
 	output +="<hr>"
-	output += "<p><a href='byond://?src=\ref[src];show_preferences=1'>Setup Character</A></p>"
+	output += "<p><a href='byond://?src=\ref[src];show_preferences=1'>Création de Personnage</A></p>"
 
 	if(!ticker || ticker.current_state <= GAME_STATE_PREGAME)
 		if(ready)
-			output += "<p>\[ <span class='linkOn'><b>Ready</b></span> | <a href='byond://?src=\ref[src];ready=0'>Not Ready</a> \]</p>"
+			output += "<p>\[ <span class='linkOn'><b>Prêt</b></span> | <a href='byond://?src=\ref[src];ready=0'>Pas Prêt</a> \]</p>"
 		else
-			output += "<p>\[ <a href='byond://?src=\ref[src];ready=1'>Ready</a> | <span class='linkOn'><b>Not Ready</b></span> \]</p>"
+			output += "<p>\[ <a href='byond://?src=\ref[src];ready=1'>Prêt</a> | <span class='linkOn'><b>Pas Prêt</b></span> \]</p>"
 
 	else
-		output += "<a href='byond://?src=\ref[src];manifest=1'>View the Crew Manifest</A><br><br>"
-		output += "<p><a href='byond://?src=\ref[src];late_join=1'>Join Game!</A></p>"
+		output += "<a href='byond://?src=\ref[src];manifest=1'>Voir manifeste d'équipage</A><br><br>"
+		output += "<p><a href='byond://?src=\ref[src];late_join=1'>Rejoindre la partie !</A></p>"
 
-	output += "<p><a href='byond://?src=\ref[src];observe=1'>Observe</A></p>"
+	output += "<p><a href='byond://?src=\ref[src];observe=1'>Rejoindre en spectateur</A></p>"
 
 	if(!IsGuestKey(src.key))
 		establish_db_connection()
@@ -63,7 +63,7 @@
 
 	output += "</div>"
 
-	panel = new(src, "Welcome","Welcome", 210, 280, src)
+	panel = new(src, "Bienvenue","Bienvenue", 210, 280, src)
 	panel.set_window_options("can_close=0")
 	panel.set_content(output)
 	panel.open()
