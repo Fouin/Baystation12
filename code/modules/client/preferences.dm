@@ -118,7 +118,7 @@ datum/preferences
 		dat += "<a href='?src=\ref[src];load=1'>Charger personnage</a> - "
 		dat += "<a href='?src=\ref[src];save=1'>Sauvegarder personnage</a> - "
 		dat += "<a href='?src=\ref[src];resetslot=1'>Réinitialiser personnage</a> - "
-		dat += "<a href='?src=\ref[src];reload=1'>Rafraîchir personnaget</a>"
+		dat += "<a href='?src=\ref[src];reload=1'>Rafraîchir personnage</a>"
 
 	else
 		dat += "Please create an account to save your preferences."

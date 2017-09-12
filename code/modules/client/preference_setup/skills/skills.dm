@@ -22,7 +22,7 @@
 
 /datum/category_item/player_setup_item/skills/content()
 	. = list()
-	. += "<b>Ajustez vos Compéténces</b><br>"
+	. += "<b>Ajustez vos compétences</b><br>"
 	. += "Niveau de compétence actuel : <b>[pref.GetSkillClass(pref.used_skillpoints)]</b> ([pref.used_skillpoints])<br>"
 	. += "<table>"
 	for(var/V in SKILLS)
