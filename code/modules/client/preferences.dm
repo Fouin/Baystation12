@@ -89,19 +89,19 @@ datum/preferences
 		points -= round((age - 30) / 5) // every 5 years after 30, one extra skillpoint
 	switch(points)
 		if(-1000 to 3)
-			return "Terrifying"
+			return "Incompétent"
 		if(4 to 6)
-			return "Below Average"
+			return "Sous la moyenne"
 		if(7 to 10)
-			return "Average"
+			return "Moyenne"
 		if(11 to 14)
-			return "Above Average"
+			return "Au dessus de la moyenne"
 		if(15 to 18)
-			return "Exceptional"
+			return "Exceptionnel"
 		if(19 to 24)
-			return "Genius"
+			return "Génie"
 		if(24 to 1000)
-			return "God"
+			return "Dieu vivant"
 
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!user || !user.client)	return

@@ -32,7 +32,7 @@
 			var/level = pref.skills[S.ID]
 			. += "<tr style='text-align:left;'>"
 			. += "<th><a href='?src=\ref[src];skillinfo=\ref[S]'>[S.name]</a></th>"
-			. += skill_to_button(S, "Non formé", level, SKILL_NONE)
+			. += skill_to_button(S, "Inexperimenté", level, SKILL_NONE)
 			// secondary skills don't have an amateur level
 			if(S.secondary)
 				. += "<th></th>"
@@ -53,7 +53,7 @@
 	if(href_list["skillinfo"])
 		var/datum/skill/S = locate(href_list["skillinfo"])
 		var/HTML = "<h2>[S.name][S.secondary ? "(secondary)" : ""]</h2>"
-		HTML += "<b>Déscription</b> : [S.desc]<br><br><b>Unskilled</b>: [S.desc_unskilled]<br>"
+		HTML += "<b>Déscription</b> : [S.desc]<br><br><b>Inexperimenté</b>: [S.desc_unskilled]<br>"
 		if(!S.secondary)
 			HTML += "<b>Novice</b> : [S.desc_amateur]<br>"
 		HTML += "<b>Entraîné</b> : [S.desc_trained]<br><b>Professionnel</b> : [S.desc_professional]"

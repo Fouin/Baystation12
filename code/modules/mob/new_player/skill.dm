@@ -39,8 +39,8 @@ proc/show_skill_window(var/mob/user, var/mob/living/carbon/human/M)
 		return
 
 	var/HTML = "<body>"
-	HTML += "<b>Select your Skills</b><br>"
-	HTML += "Current skill level: <b>[M.GetSkillClass(M.used_skillpoints)]</b> ([M.used_skillpoints])<br>"
+	HTML += "<b>Choisissez vos compétences</b><br>"
+	HTML += "Niveau de compétence actuel: <b>[M.GetSkillClass(M.used_skillpoints)]</b> ([M.used_skillpoints])<br>"
 	HTML += "<table>"
 	for(var/V in SKILLS)
 		HTML += "<tr><th colspan = 5><b>[V]</b>"
@@ -49,14 +49,14 @@ proc/show_skill_window(var/mob/user, var/mob/living/carbon/human/M)
 			var/level = M.skills[S.ID]
 			HTML += "<tr style='text-align:left;'>"
 			HTML += "<th>[S.name]</th>"
-			HTML += "<th><font color=[(level == SKILL_NONE) ? "red" : "black"]>\[Untrained\]</font></th>"
+			HTML += "<th><font color=[(level == SKILL_NONE) ? "red" : "black"]>\[Inexperimenté\]</font></th>"
 			// secondary skills don't have an amateur level
 			if(S.secondary)
 				HTML += "<th></th>"
 			else
-				HTML += "<th><font color=[(level == SKILL_BASIC) ? "red" : "black"]>\[Amateur\]</font></th>"
-			HTML += "<th><font color=[(level == SKILL_ADEPT) ? "red" : "black"]>\[Trained\]</font></th>"
-			HTML += "<th><font color=[(level == SKILL_EXPERT) ? "red" : "black"]>\[Professional\]</font></th>"
+				HTML += "<th><font color=[(level == SKILL_BASIC) ? "red" : "black"]>\[Novice\]</font></th>"
+			HTML += "<th><font color=[(level == SKILL_ADEPT) ? "red" : "black"]>\[Entraîné\]</font></th>"
+			HTML += "<th><font color=[(level == SKILL_EXPERT) ? "red" : "black"]>\[Professionnel\]</font></th>"
 			HTML += "</tr>"
 	HTML += "</table>"
 
@@ -85,20 +85,20 @@ mob/living/carbon/human/verb/show_skills()
     var/desc_professional = "Expert Description"
 
 /datum/skill/secondary
-	field = "Secondary"
+	field = "Secondaire"
 	secondary = TRUE
 
 /datum/skill/security
-	field = "Security"
+	field = "Défense"
 
 /datum/skill/engineering
-	field = "Engineering"
+	field = "Ingénierie"
 
 /datum/skill/research
-	field = "Research"
+	field = "Recherche"
 
 /datum/skill/medical
-	field = "Medical"
+	field = "Médecine"
 
 var/global/list/SKILLS = null
 
@@ -107,163 +107,164 @@ var/global/list/SKILLS = null
 
 /datum/skill/secondary/management
     ID = "management"
-    name = "Command"
-    desc = "Your ability to manage and commandeer other crew members."
-    desc_unskilled = "You know a little about management, but you have a lot of flaws and little experience. You are likely to micromanage, lose track of people, or generally muck things up. Handling a major crisis is probably beyond your ability."
-    desc_trained = "You're a good commander. You know how to coordinate the efforts of a large group of people effectively. You'll still be thrown off in a crisis, but you'll probably get through it."
-    desc_professional = "You're an excellent commander. In addition to just doing your job, you know how to inspire love, loyalty or fear, and you handle crises smoothly and efficiently."
+    name = "Leadership"
+    desc = "Votre abilité à gérer et donner des ordres à d'autres individus."
+    desc_unskilled = "Vous ne savez presque rien en gestion, vous faites beaucoup d'erreurs et êtes inexperimenté. Vous perdez le fil des êvenements et des gens facilement. Gérer une crise est probablement au dessus de vos compétences."
+    desc_trained = "Vous êtes un bon commandant. Vous êtes capable de coordonner un groupe de personnes pour un but commun de façon efficace. Vous serez probablement quand même sur la touche en cas de crise, mais vous allez y survivre."
+	desc_professional = "Vous êtes un excellent commandant. En plus de savoir faire votre boulot, vous savez comment inspirer la passion, la loyauté et la peur, et savez gérer les crises de façon efficace."
 
 /datum/skill/secondary/EVA
     ID = "EVA"
-    name = "Extra-vehicular activity"
-    desc = "This skill describes your skill and knowledge of space-suits and working in vacuum."
-    desc_unskilled = "You have basic safety training common to people who work in space: You know how to put on and seal your internals, and you can probably struggle into a space suit if you really need to, though you'll be clumsy at it. You're still prone to mistakes that may leave you trying to breathe vacuum."
-    desc_trained = "You can comfortably use a space suit and do so regularly in the course of your work. Checking your internals is second nature to you, and you don't panic in an emergency."
-    desc_professional = "You can use all kinds of space suits, including specialized versions. You can use a jet pack to navigate and are just as much at home in a vacuum as in atmosphere. You probably do your job almost entirely EVA."
+    name = "Activité Extra-Véhiculaire"
+	desc = "Votre abilité à maintenir, utiliser des combinaisons spatiales et à travailler en l'absence de gravité."
+	desc_unskilled = "Vous avez un entraînement de base commun à tout ceux qui travaillent sur une station : Vous savez comment enfiler et utiliser vos systèmes de survie, et vous êtes probablement capable de vous fourrer dans une combinaison spatiale si vous en avez vraiment besoin, bien que vous allez être maladroit. Vous êtes toujours capable de faire des erreurs qui vont vous faire respirer du vide."
+	desc_trained = "Vous êtes à l'aise dans une combinaison spatiale, que vous utilisez souvent dans votre travail. Vérifier votre pression et votre air est une seconde nature pour vous, vous ne paniquez pas en cas d'urgence."
+	desc_professional = "Vous êtes capable d'utiliser plusieurs types de combinaisons, même certaines versions spécialisées. Vous êtes formé à l'usage du jet pack et êtes aussi à l'aise à l'extérieur qu'à l'intérieur. Votre boulot implique probablement d'être presque tout le temps en SEV."
 
 /datum/skill/secondary/law
     ID = "law"
-    name = "Legal"
-    desc = "Your knowledge of legal systems and procedures. This includes law systems, corporate regulations, and standard operating procedure. A low level in this skill is typical for law enforcement, a high level in this skill is typical for people in command of a station or vessel."
-    desc_unskilled = "You know most of what's legal and illegal in your everyday life and work, though you're fuzzy on the finer points of the law, especially if it doesn't apply to your own daily experience."
-    desc_trained = "You know and understand the law in a practical sense. You know the punishments for crimes and you can read and understand a legal document easily. You may be in Security or Command."
-    desc_professional = "You have a law degree or the equivalent amount of knowledge. You can draw up legal contracts, interpret the minutiae of the law, settle disagreements, and argue a case in court."
+    name = "Société"
+	desc = "Votre connaissance des procédures légales et de la géopolitique. Cela inclut principalement la Déclaration des Droits des Sentients, et les lois dans l'espace de la République et de la Fédération. Une connaissance faible est typique des employés de l'administration, une connaissance elevée est typique des agents de sécurité."
+	desc_unskilled = "Vous savez ce qui est légal ou pas dans votre vie de tout les jouers, bien que vous n'avez aucune idée de la portée des textes de lois, surtout si elle ne concerne pas votre travail."
+	desc_trained = "Vous avez une connaissance des lois dans un sens pratique. Vous savez comment sont punis les crimes et vous pouvez comprendre un document de loi facilement. Vous êtes probablement un agent de sécurité ou un directeur."
+	desc_professional = "Vous avez étudier la loi ou tout comme. Vous pouvez fabriquer des contrats, utiliser des failles légales et gérer des soucis entre particuliers. Vous avez une connaisance exhaustive de l'état de la géopolitique actuelle."
 
 /datum/skill/secondary/botany
 	ID = "botany"
-	name = "Botany"
-	desc = "Describes how good a character is at growing and maintaining plants."
-	desc_unskilled = "You've done some gardening. You can water, weed, fertilize, plant, and harvest, and you can recognize and deal with pests. You may be a hobby gardener."
-	desc_trained = "You're a botanist or farmer, growing crops on large scales or doing botanical research. You know the basics of manipulating plant genes."
-	desc_professional = "You're a specialized botanist. You can care for even the most exotic, fragile, or dangerous plants, and you can create custom hybrids and modified strains."
+	name = "Botanique"
+	desc = "Votre abilité à faire pousser et à prendre soin des plantes."
+	desc_unskilled = "Vous vous êtes déjà un peu occupé d'un jardin. Vous pouvez arroser, couper les mauvaises herbes, planter, récolter, et vous savez reconnaître les vermines. Il est possible que ce soit un hobby pour vous."
+	desc_trained = "Vous êtes un botaniste ou un fermier, peut-être que vous faites pousser des plantations à grande échelle ou avez déjà pris part à de la recherche otanique. Vous connaissez les bases de la selection des gênes pour des plantations.
+	desc_professional = "Vous êtes spécialisé en botanique. Vous êtes capable de prendre soin des spécimens de plantes les plus éxotiques, fragiles ou dangereux. Vous disposez des connaissances et de la méthode pour créer des hybrides ou manipuler les gênes des plantes."
 
 /datum/skill/secondary/cooking
 	ID = "cooking"
-	name = "Cooking"
-	desc = "Describes a character's skill at preparing meals and other consumable goods. This includes mixing alcoholic beverages."
-	desc_unskilled = "You can make simple meals and do the cooking for your family. Things like spaghetti, grilled cheese, or simple mixed drinks are your usual fare."
-	desc_trained = "You can cook professionally, keeping an entire crew fed easily. Your food is tasty and you don't have a problem with tricky or complicated dishes. You can be depended on to make just about any commonly-served drink."
-	desc_professional = "Not only are you good at cooking and mixing drinks, but you can manage a kitchen staff and cater for special events. You can safely prepare exotic foods and drinks that would be poisonous if prepared incorrectly."
+	name = "Cuisine"
+	desc = "Vos compétenes en matière de préparation de repas et autres consommables. Cela inclut la préparation de mélanges à base d'alcool."
+	desc_unskilled = "Vous savez préparer des repas simples et faire à manger pour votre famille. Des trucs comme les spaghettis, du fromage grillé ou des mélanges simples sont généralement à votre portée."
+	desc_trained = "Vous savez cuisiner à grande échelle, et garder un équipage entier bien nourri. Vos repas sont bons et vous n'avez aucuns problème avec les recettes compliquées. Vous pouvez préparer la plupart des boissons souvent servies."
+	desc_professional = "Non seulement vous savez très bien cuisiner et préparer des cocktails d'excellente facture, mais vous savez très bien gérer un groupe de cuisinier et préparer des repas pour des occasions spéciales. Vous êtes probablement renommé ou recompensé."
 
 // Category: Security
 
 /datum/skill/security/combat
 	ID = "combat"
-	name = "Close Combat"
-	desc = "This skill describes your training in hand-to-hand combat or melee weapon usage. While expertise in this area is rare in the era of firearms, experts still exist among athletes."
-	desc_unskilled = "You can throw a punch or a kick, but it'll knock you off-balance. You're inexperienced and have probably never been in a serious hand-to-hand fight. In a fight, you might panic and run, grab whatever's nearby and blindly strike out with it, or (if the other guy is just as much of a beginner as you are) make a fool out of yourself."
-	desc_amateur = "You either have some experience with fistfights, or you have some training in a martial art. You can handle yourself if you really have to, and if you're a security officer, can handle a stun baton at least well enough to get the handcuffs onto a criminal."
-	desc_trained = "You're good at hand-to-hand combat. You've trained explicitly in a martial art or as a close combatant as part of a military or police unit. You can use weaponry competently and you can think strategically and quickly in a melee. You're in good shape and you spend time training."
-	desc_professional = "You specialize in hand-to-hand combat. You're well-trained in a practical martial art, and in good shape. You spend a lot of time practicing. You can take on just about anyone, use just about any weapon, and usually come out on top. You may be a professional athlete or special forces member."
+	name = "Corps à Corps"
+	desc = "Votre abilité au pugilat et à l'utilisation d'arme de corps à corps. Bien que la maîtrise du combat rapproché devient rare à l'époque des armes à feu, les maîtres existent toujours parmis les athlètes."
+	desc_unskilled = "Vous savez mettre un coup de poing ou un coup de pied, mais fort à parier que ça vous ferez perdre l'équilibre. Vous n'êtes pas entraîné et vous n'avez probablement jamais pris part à un vrai combat. Dans un combat, il est plus probable que vous mettiez à paniquer et courrir, ou que vous attrapiez un objet au hasard pour battre l'air avec."
+	desc_amateur = "Soit vous avez un peu d'expérience en bagarre, soit vous avez suivi un entraînement aux art martiaux. Vous êtes capable de vous protéger en dernier recours, et si vous êtes un agent de sécurité, vous savez tenir une matraque suffisament bien pour pouvoir coffrer un criminel."
+	desc_trained = "Vous êtes un bon combattant. Vous avez suivi un entraînement rigoureux au combat et faites probablement partie d'une unité de police ou miltiaire. Vous avez l'habitude des armes et êtes capable de réfléchir stratégiquement durant un combat. Vous êtes en bonne forme physique et vous passez du temps à vous entraîner."
+	desc_professional = "Vous êtes spécialisé en combat rapproché. Vous maîtriser un ou plusieurs arts martiaux. Vous êtes en excellente forme physique et passez beaucoup de temps à vous entraîner. La plupart de vos ennemis ne peuvent pas vous résister avec une arme dans les mains. Vous êtes peut-être un athlète connu ou un membre des forces spéciales."
 
 /datum/skill/security/weapons
 	ID = "weapons"
-	name = "Weapons Expertise"
-	desc = "This skill describes your expertise with and knowledge of weapons. A low level in this skill implies knowledge of simple weapons, for example flashes. A high level in this skill implies knowledge of complex weapons, such as unconfigured grenades, riot shields, pulse rifles or bombs. A low-medium level in this skill is typical for security officers, a high level of this skill is typical for special agents and soldiers."
-	desc_unskilled = "You know how to recognize a weapon when you see one. You can probably use pepper spray or a flash, though you might fumble and turn them on yourself by mistake. You're likely to shoot yourself in the foot or forget to take the safety off. Your lack of training may make you more dangerous to your allies than your enemies."
-	desc_amateur = "You know how to handle weapons safely, and you're comfortable using simple weapons. Your aim is decent and you can be trusted not to do anything stupid with a weapon, but your training isn't automatic yet and your performance will degrade in high-stress situations."
-	desc_trained = "You've used firearms and other ranged weapons in a high-stress situation, and your skills have become automatic. You spend time practicing at the firing range. Your aim is good. You can maintain and repair your weaponry. You may have military or police experience and you probably carry a weapon on the job."
-	desc_professional = "You are an exceptional shot with a variety of weapons, from simple to exotic. You can depend on hitting not just your target, but a specific part of your target, such as shooting someone in the leg. You use a weapon as naturally as though it were a part of your own body. You may be a professional marksman of some kind. You probably know a good deal about tactics, and you may have designed or modified your own weaponry."
+	name = "Armement"
+	desc = "Votre connaissance des armes et de leur utilisation. Un niveau faible implique une connaissance des armes simples, comme les flashs. Un haut niveau impliqué une connaissance des armes complexes,  comme des grenades spécialisés, des équipements anti-émeutes, des armes à énergie ou des bombes. Un niveau moyen est typique d'un agent de sécurité, un niveau elevé d'un soldat ou d'un mercenaire."
+	desc_unskilled = "Vous savez reconnaître une arme quand vous en voyez une. Vous êtes capable d'utiliser un spray au poivre ou un flash, de façon un peu laborieuse tout de même. Il est probable que vous vous tiriez dans le pied par erreur ou oubliez de désactiver la sécurité de votre arme. Votre manque d'entraînement vous rends plus dangereux pour vos alliés que pour vos ennemis."
+	desc_amateur = "Vous savez comment utiliser une arme en toute sécurité, et vous n'avez pas trop de problèmes avec les armes simples. Votre visée est correct et on peut vous faire confiance pour ne rien faire de stupide avec une arme. Cependant vos réflexes ne sont pas devenus automatiques et il est possible que vos performances se dégrandent dans une situation stressante."
+	desc_trained = "Vous avez déjà utilisé des armes dans des situations compliquées, et les réflexes de bases sont devenus comme une seconde natur epour vous. Vous vous entraînez beaucoup au stand de tir. Votre visée est bonne. Vous êtes capable de réparer et d'entretenir vos armes. Vous avez probablement une expérience militaire ou policière et portez sans doute une arme pour votre travail."
+	desc_professional = "Vous êtes un tirreur exceptionnel avec toutes sortes d'armes, des plus simples aux plus éxotiques. Non seulement vous êtes capable de faire mouche à coup sûr, mais vous êtes aussi capable de viser une partie spécifique d'une cible, comme les jambes d'un ennemi qui s'enfuit. Votre arme est comme une extension de votre corps. Vous êtes probablement un tireur d'élite.  Vous connaissez votre lot de tactiques, et vous êtes capable de concevoir ou de modifier votre armement."
 
 /datum/skill/security/forensics
 	ID = "forensics"
-	name = "Forensics"
-	desc = "Describes your skill at performing forensic examinations and identifying vital evidence. Does not cover analytical abilities, and as such isn't the only indicator for your investigation skill. Note that in order to perform autopsy, the surgery skill is also required."
-	desc_unskilled = "You know that detectives solve crimes. You may have some idea that it's bad to contaminate a crime scene, but you're not too clear on the details."
-	desc_amateur = "You know how to avoid contaminating a crime scene. You know how to use the tools of the trade (scanner, computer database, and so forth), and you can conduct an interview with a witness or a suspect."
-	desc_trained = "You're a police officer, pathologist, or detective. You can secure a crime scene, gather evidence, interview witnesses, and put two and two together to get an arrest. If you're trained in anatomy, you can perform an autopsy."
-	desc_professional = "You specialize in criminal investigations. Your ability to gather and analyze evidence has been honed through intensive schooling, years of practice, or most likely both. You can organize a manhunt or draw a criminal into a trap, and though you're behind the scenes and may never even see the criminal, your skills make the difference between an unsolved crime and a convicted criminal."
+	name = "Enquête"
+	desc = "Votre abilité à appliquer les procédures criminalistiques de base et à identifier des indices. Ne concerne pas votre capacité d'analyse, et donc n'est pas totalement indicatif de votre aptitude à enquêter. Pour procéder à une autopsie, des compétences en chirurgie sont également requises."
+	desc_unskilled = "Vous savez que les enquêteurs résolvent des affaires. Vous vous doutez peut-être que c'est pas bien de contaminer une scène de crimes, mais vous n'avez aucune idée des détails techniques."
+	desc_amateur = "Vous savez comment ne pas contaminer une scène de crime. Vous savez comment utiliser les outils les plus évidents (scanner, bases de données), et vous êtes capable de mener un interrogatoire."
+	desc_trained = "Vous êtes un agent de police, un légiste ou un détective. Vous savez sécurisert une scéne de crime, récolter des indices, interroger  des témoins, et connecter les indices pour mener à une arrestation. Si vous avez des compétences en anatomie, vous pouvez effectuer une autopsie."
+	desc_professional = "Vous êtes spécialisé en criminalistique. Vos abilités à récolter et analyser des indices ont été forgés par des études longues ou des années de pratiques, souvent les deux. Vous êtes capable de retrouver un suspect ou de leur tendre un piège.  Bien que vous agissez dans l'ombre et n'avez probablement jamais vu le criminel, votre expérience est ce qui fait la différence entre un crime non-résolu et un homme derrière les barreaux."
 
 // Category: Engineering
 
 /datum/skill/engineering/construction
     ID = "construction"
     name = "Construction"
-    desc = "Your ability to construct various buildings, such as walls, floors, tables and so on. Note that constructing devices such as APCs additionally requires the Electronics skill. A low level of this skill is typical for janitors, a high level of this skill is typical for engineers."
-    desc_unskilled = "You can move furniture, assemble or disassemble chairs and tables (sometimes they even stay assembled), bash your way through a window, open a crate, or pry open an unpowered airlock. You can recognize and use basic hand tools and inflatable barriers, though not very well."
-    desc_amateur = "You can dismantle or build a wall or window, build furniture, redecorate a room, and replace floor tiles and carpeting. You can safely use a welder without burning your eyes, and using hand tools is second nature to you."
-    desc_trained = "You know how to seal a breach, rebuild broken piping, and repair major damage. You know the basics of structural engineering."
-    desc_professional = "You are a construction worker or engineer. You could pretty much rebuild the installation from the ground up, given supplies, and you're efficient and skilled at repairing damage."
+    desc = "Votre capacité à bâtir des constructions variées, comme des murs, des sols, des tables, etc. Notez que construire des appareils tels que des APCs requiert également des compétences en électronique. Un niveau faible dans cette compétence est typique des concierges, un niveau élevé est typique des ingénieurs."
+    desc_unskilled = "Vous pouvez déplacer le mobilier, monter ou démonter des chaises et des tables, casser une vitre, ouvrir une caisse, ou forcer une porte qui n'est plus alimentée. Vous pouvez reconnaitre et utiliser des outils basiques et les murs gonflable, mais pas facilement."
+    desc_amateur = "Vous pouvez démonter ou construire un mur ou une fenêtre, construire du mobilier, redécorer une pièce et remplacer le sol. Vous savez vous servir d'un soudeur en toute sécurité sans vous brûler les yeux, et vous avez l'habitude d'utiliser toutes sortes d'outils."
+    desc_trained = "Vous savez réparer une brèche, reconstruire la tuyauterie endommagée et réparer les dégâts majeurs. Vous connaissez les bases de l'ingénierie structurelle."
+    desc_professional = "Vous êtes un ingénieur ou un ouvrier de chantier. Si on vous donnait les matériaux, vous pourriez reconstruire toute l'installation à partir de rien. Vous êtes efficace et compétent pour réparer les dégâts."
 
 /datum/skill/engineering/electrical
     ID = "electrical"
-    name = "Electrical Engineering"
-    desc = "This skill describes your knowledge of electronics and the underlying physics. A low level of this skill implies you know how to lay out wiring and configure powernets, a high level of this skill is required for working complex electronic devices such as circuits or bots."
-    desc_unskilled = "You know that electrical wires are dangerous and getting shocked is bad; you can see and report electrical malfunctions such as broken wires or malfunctioning APCs. You can change a light bulb, and you know how to replace a battery or charge up the equipment you normally use."
-    desc_amateur = "You can do basic wiring; you can lay cable for solars or the engine. You can repair broken wiring and build simple electrical equipment like light fixtures or APCs. You know the basics of circuits and understand how to protect yourself from electrical shock. You can probably hack a vending machine."
-    desc_trained = "You can repair and build electrical equipment and do so on a regular basis. You can troubleshoot an electrical system and monitor the installation power grid. You can probably hack an airlock."
-    desc_professional = "You are an electrical engineer or the equivalent. You can design, upgrade, and modify electrical equipment and you are good at maximizing the efficiency of your power network. You can hack anything on the installation you can deal with power outages and electrical problems easily and efficiently."
+    name = "Électronique"
+    desc = "Votre connaissance de l'électronique et de la physique sous-jacente. Un niveau faible implique vous savez brancher un cable ou intéragir avec un disjoncteur, un niveau elevé est requis pour travailler sur des installations électriques complexes comme des circuits ou des robots"
+    desc_unskilled = "Vous savez que les cables électriques, c'est dangereux, et que se faire électriser est rarement une bonne chose ; vous êtes capable de reconnaître et de signaler des installations endommagées. Vous êtes capable de changer une ampoule ou de remplacer une batterie."
+    desc_amateur = "Vous êtes capable des câblages de base ; vous êtes capable de brancher les panneaux solaires ou le moteur. Vous êtes capable de réparer un cable endommagé ou de construire des installations simples comme des APCs ou des luminaires. Vous connaissez la base des circuits imprimés et vous savez comment vous protéger des électrocutions. Avec de l'aide, vous pouvez probablement pirater une machine à café."
+    desc_trained = "Vous savez réparer ou brancher toutes sortes d'équipements et vous le faites tout les jours. Vous pouvez faire le diagnostic de systèmes électriques et surveiller l'état de la grille. Vous savez probablement pirater un sas."
+    desc_professional = "Vous êtes un électricien ou équivalent. Vous pouvez conçevoir, améliorer ou modifier des installations électriques et maximiser le rendement. Vous savez tout pirater et êtes formé à gérer des pannes rapidement."
 
 /datum/skill/engineering/atmos
     ID = "atmos"
-    name = "Atmospherics"
-    desc = "Describes your knowledge of piping, air distribution and gas dynamics."
-    desc_unskilled = "You know that the air monitors flash orange when the air is bad and red when it's deadly. You know that a flashing fire door means danger on the other side. You know that some gases are poisonous, that pressure has to be kept in a safe range, and that most creatures need oxygen to live. You can use a fire extinguisher or deploy an inflatable barrier."
-    desc_amateur = "You know how to read an air monitor, how to use an air pump, how to analyze the atmosphere in a space, and how to help seal a breach. You can lay piping and work with gas tanks and canisters. If you work with the engine, you can set up the cooling system. You can use a fire extinguisher easily and place inflatable barriers so that they allow convenient access and airtight breach containment."
-    desc_trained = "You can run the Atmospherics system. You know how to monitor the air quality across the installation detect problems, and fix them. You're trained in dealing with fires, breaches, and gas leaks, and may have exosuit or fire gear training."
-    desc_professional = "You are an atmospherics specialist. You monitor, modify, and optimize the installation atmospherics system, and you can quickly and easily deal with emergencies. You can modify atmospherics systems to do pretty much whatever you want them to. You can easily handle a fire or breach, and are proficient at securing an area and rescuing civilians, but you're equally likely to have simply prevented it from happening in the first place."
+    name = "Systèmes de Survie"
+    desc = "Vos connaissances de la plomberie, de la distribution d'air et de la mécanique des fluides."
+    desc_unskilled = "Vous savez que quand l'alarme est orange, l'air est mauvais, et quand il est rouge, il est mortel. Vous savez qu'une lumière qui clignote sur une porte coupe-feu veut dire danger de l'autre coté. Vous savez que certains gazs sont dangereux, que la pression aussi, et que la plupart des trucs vivants ont besoin d'oxygène pour vivre. Vous savez utiliser un extincteur ou un mur gonflable."
+    desc_amateur = "Vous savez comment lire un scan atmosphérique, comment utiliser une pompe à air et comment sceller une brèche. Vous pouvez poser une tuyauterie et travailler avec des bouteilles de gaz. Vous savez comment vous servir d'un extincteur et vous savez placer des murs gonflables de façon à ce qu'ils forment des périmètres de sécurité."
+    desc_trained = "Vous êtes capable de mettre en route et modifier les Systèmes de Survie. Vous savez comment surveiller la qualité de l'air à travers toute l'installation, détecter les problèmes, et les régler. Vous avez été formé à la lutte contre le feu, les brèches, les fuites de gaz, et probablement aussi à l'utilisation des exosuits et à l'équipement de lutte contre les flammes."
+    desc_professional = "Vous êtes un spécialiste des systèmes de survies. Vous surveillez, modifiez et optimisez naturellement les installations atmosphériques, et vous êtes capable de gérer rapidement et efficacement les situations d'urgences. Vous pouvez modifier les systèmes de survie comme bon vous semble.  Vous luttez facilement contre les flammes et les brèches, et avez l'habitude d'établir des périmètres de sécurité et de secourir les civils, mais vous préférez l'idée d'empêcher ce type de situation en premier lieu."
 
 /datum/skill/engineering/engines
 	ID = "engines"
-	name = "Engines"
-	desc = "Describes your knowledge of the various engine types common on space stations, such as the singularity, supermatter or RUST engine."
-	desc_unskilled = "You know that \"delamination\" is a bad thing and that you should stay away from the singularity. You know the engine provides power, but you're unclear on the specifics. If you were to try to set up the engine, you would need someone to talk you through every detail--and even then, you'd probably make deadly mistakes."
-	desc_amateur = "You know the basic theoretical principles of engine operation. You can try to set up the engine by yourself, but you are likely to need some assistance and supervision, otherwise you are likely to make mistakes."
-	desc_trained = "You can set up the engine, and you probably won't botch it up too badly. You know how to protect yourself from radiation in the engine room. You can read the engine monitors and keep the engine going. You're familiar with engine types other than the one you work with. An engine malfunction may stump you, but you can probably work out how to fix it... let's just hope you do so quickly enough to prevent serious damage."
-	desc_professional = "Your engine is your baby and you know every minute detail of its workings. You can optimize the engine and you probably have your own favorite custom setup. You could build an engine from the ground up. When things go wrong, you know exactly what has happened and how to fix the problem. You can safely handle singularities and supermatter."
+	name = "Générateurs""
+	desc = "Vos connaissances des différents types de moteurs à bord des stations spatiales et leur utilisation."
+	desc_unskilled = "Vous savez que \"radiations"\ est quelque chose de pas cool et que vous devez probablement vous tenir loin des trucs qui brillent en bleu. Vous save qu'un générateur crée de la puissance, mais vous ne savez pas forcément l'expliquer. Si on devait vous demander de brancher le moteur, quelqu'un devrait vous guider pour chaque étape, et même avec ça il est probable que vous fassiez une erreur fatale."
+	desc_amateur = "Vous connaissez les bases théoriques du fonctionnement d'un moteur. Vous pouvez essayer d'allumer le moteur par vous même, mais vous allez avoir besoin d'aide ou de supervision, ou vous allez faire des erreurs."
+	desc_trained = "Vous pouvez monter le générateur, et ne pas trop l'endommager. Vous connaissez les risques et la façon de se protéger des radiations. Vous savez lire les informations du moteur et le garder allumer. Vous avez une connaissance exhaustive des types de moteurs auxquels vous avez été confronté. Une panne pourrait vous laisser perplexe, mais il est probable que vous soyez capable de la réparer… en espérant que vous soyez capable de le faire suffisament vite pour éviter trop de dégâts."
+	desc_professional = "Le moteur est votre bébé. Vous connaissez chaque détails de son fonctionnement. Vous pouvez l'optimiser et avez probablement une version personnalisée que vous préférez. Vous seriez capable de monter un générateur à partir de pièces détachées. Quand les choses sont hors de contrôle, vous savez exactement ce qui c'est passé et comment régler le problème."
 
 /datum/skill/engineering/mech
     ID = "mech"
-    name = "Heavy Machinery Operation"
-    desc = "Describes your experience and understanding of operating heavy machinery, which includes mechs and other large exosuits. Used in piloting mechs."
-    desc_unskilled = "You know what a mech is, and if you see one you can recognize which type it is. If your department uses exosuits, you know roughly what their capabilities are. If you were to get into one, you'd have about fifty-fifty odds of getting it moving in the direction you wanted it to go."
-    desc_amateur = "You can drive an exosuit safely, but you specialize in only one type of mech that your department regularly uses. You're not an expert and you fumble the controls sometimes, but you're going where you want to go and you're pretty sure you know what those buttons do. If you're a miner, you can set up a mining drill safely; if you have the electrical skills, you probably know how to operate a shield generator and set up a laser emitter."
-    desc_trained = "You are very comfortable using the type of exosuit you're most familiar with. You may spend entire shifts piloting one, and you're familiar with its functions. You can do basic maintenance. You can use most types of exosuits, unless they're very exotic or specialized. If you're an electrician or engineer, you can set up a shield generator solo. Miners at this level can place and use mining drills with high efficiency."
-    desc_professional = "You can use any type of mech comfortably and automatically. To you, a mech is more like a second skin than a vehicle. You can maintain, repair, and probably build exosuits. You can maintain, repair, and modify drills and shield generators."
+    name = "Équipement Lourd"
+    desc = "Votre expérience et vos connaissance de l'utilisation des équipements lourds, tels que les mechas et autres exosuits lourds. "
+    desc_unskilled = "Vous savez ce qu'est un mecha et à quoi ca sert, et vous serez probablement capable d'identifier un type de mecha en particulier. Si votre département en utilise, vous savez de quoi ils sont capables. Si vous deviez être aux commandes, il y'a une chance sur deux que vous arriviez à faire un pas dans la direction que vous voulez."
+    desc_amateur = "Vous êtes capable de conduire un mecha, mais vous êtes bien spécialisé dans un seul type que votre département utilise régulièrement. Vous n'êtes pas un expert et pouvez vous perdre dans les commandes, mais vous allez là où vous voulez aller et vous savez la signification de la majorité des boutons. Si vous êtes un mineur vous savez mettre en route votre perceuse ; si vous avez les compétences nécessaires en électronique, vous êtes probablement capable de monter un générateur de bouclier ou un laser."
+    desc_trained = "Vous êtes très à l'aise avec le type d'exosuit que vous utilisez régulièrement. Vous passez probablement la majorité de votre relève à l'utiliser, et connaissez ses fonctions. Vous êtes capable de faire la maintenance de base. Vous savez utiliser la majorité des exosuits, sauf ceux particulièrement rares ou spécialisés. Si vous êtes électricien ou ingénieur, vous savez mettre en place un générateur de bouclier tout seul. Les mineurs à ce niveau peuvent utiliser la perceuse sans aucun problème."
+    desc_professional = "Vous pouvez utiliser tout les types de mechas sans problèmes ni contraintes. Pour vous, un mecha est comme une seconde peau. Vous savez les entretenir, les réparer, et probablement aussi les construire."
 
 /datum/skill/engineering/pilot
     ID = "pilot"
-    name = "Piloting"
-    desc = "Describes your experience and understanding of piloting spacecraft, from small and short-range pods to corvette sized vessels."
-    desc_unskilled = "You know what a spacecraft is, and you might have an abstract understanding of the differences between various ships. If your department is involved in the use of spacecraft, you know roughly what their capabilities are. You might be able to fly a spacecraft in a videogame. If you were to take the Helm of a smaller vessel, you might be able to move it with proper guidance."
-    desc_amateur = "You can pilot a small, short-range craft safely, but larger ships are out of your area of expertise. You are by no means an expert, and probably don't have much training. Skills of this level are typical for deck crew."
-    desc_trained = "You are a trained pilot, and can safely operate anything from a small craft to a corvette. You can spend extended periods of time piloting a spacecraft, and you're versed in the abilities of different ships, and what makes them function. You can do basic maintenance on smaller vessels, and perform most basic maneuvers. You can use armed spacecraft. You can make basic calculations relating to piloting. Skills of this level are typical for newer pilots. You have probably recieved formal piloting training."
-    desc_professional = "You are an experienced pilot, and can safely take the helm of many types of craft. You could probably live in a spacecraft, and you're very well versed in essentially everything related to space-faring vessels. Not only can you fly a ship, but you can perform difficult maneuvers, and make most calculations related to piloting a spacecraft. You can maintain a ship. Skills of this level are typical for very experienced pilots. You have recieved formal piloting training."
+    name = "Pilotage"
+    desc = "Votre expérience et compréhension du pilotage du vaisseau et de la physique des technologies FTL, de la petite navette jusqu'à la corvette de combat."
+    desc_unskilled = "Vous savez ce qu'est un vaisseau, et vous avez probablement une vague connaissance des différences entre chaque type de navette. Si votre département est impliqué dans l'utilisation de véhicules spatiaux, vous savez de quoi ils sont capables. Vous serez probablement capable d'en piloter un dans un jeu-vidéo. Si on vous donnez le contrôle d'un petit vaisseau, vous seriez peut être capable de le piloter avec un peu d'aide."
+    desc_amateur = "Vous pouvez piloter un petit vaisseau courte portée en toute sécurité, mais les grands vaisseaux sont au delà de vos capacités. Vous n'êtes pas du tout un expert et n'avez aucun entraînement."
+    desc_trained = "Vous êtes un pilote entraîné, vous êtes formé à l'utilisation des petits appareils civils et militaires. Vous pouvez piloter un vaisseau sur de longues sessions, et vous êtes au courrant des spécificités techniques des différents vaisseaux. Vous êtes capable de faire de la maintenance de base et de procéder à des manoevres simples. Vous pouvez utiliser les armes d'un vaisseau. Vous pouvez faire des calculs orbitaux simples. Un niveau typique des nouveaux pilotes."
+    desc_professional = "Vous êtes un pilote chevronné.  Vous vivez probablement dans le vaisseau que vous pilotez, et vous savez tout ce qu'il y'a à savoir sur le voyage spatial. Non seulement vous savez piloter avec aisance, mais vous êtes capable de manoevres complexes, et de procéder à des calculs orbitaux très avancé. Ce niveau est typique des pilotes militaires. Vous avez reçu un entraînement particulier."
 
 // Category: Research
 
 /datum/skill/research/devices
     ID = "devices"
-    name = "Complex Devices"
-    desc = "Describes the ability to assemble complex devices, such as computers, circuits, printers, robots or gas tank assemblies (bombs). Note that if a device requires electronics or programming, those skills are also required in addition to this skill."
-    desc_unskilled = "You know how to use the technology that was present in whatever society you grew up in. You know how to tell when something is malfunctioning, but you have to call tech support to get it fixed."
-    desc_amateur = "You use and repair high-tech equipment in the course of your daily work. You can fix simple problems, and you know how to use a circuit printer or autolathe. You can build simple robots such as cleanbots and medibots. If you have the relevant medical or electronic knowledge, you can repair a prosthesis or artificial organ; if not, these devices are beyond you."
-    desc_trained = "You can build or repair an exosuit or cyborg chassis, use a protolathe and destructive analyzer, and build prosthetic limbs. You can safely transfer an MMI or posibrain into a cyborg chassis."
-    desc_professional = "You are an inventor, researcher, or anomalist. You can design, build, and modify equipment that most people don't even know exists. You are at home in the lab and the workshop and you've never met a gadget you couldn't take apart, put back together, and replicate."
+    name = "Dispositifs Complexes"
+    desc = "Décrit la capacité d'assembler des dispositifs complexes, tels que des ordinateurs, des circuits, des imprimantes, des robots ou des assemblages de réservoirs de gaz (bombes). Notez que si un dispositif nécessite de l'éléctronique ou de la programmation, ces compétences sont également requises en plus de cette dernière."
+    desc_unskilled = "Vous savez comment utiliser la technologie présente dans la société ou vous avez grandi. Vous pouvez voir quand quelque chose ne fonctionne pas, mais vous devez appeller le support technique pour le faire réparer."
+    desc_amateur = "Vous utilisez et réparez de l'équipment high-tech au cours de votre travail quotidien. Vous pouvez régler des problèmes simples, et savez comment utiliser une imprimante de circuits ou un autolathe. Vous pouvez construire des robots simples tels que des medibots ou cleanbots. Si vous avez des connaissances médicales ou éléctriques pertinantes, vous pouvez réparer une prothèse ou un organe artificiel; sionon, ces objets sont au delà de vos capacités"
+    desc_trained = "Vous pouvez construire ou réparer une exosuit oun chassis de cyborg, utiliser un protolathe et un analyseur destructif, et construire des prothèses. Vous pouvez transférer une MMI ou un cerveau positronique dans un chassis de cyborg en toute sécurité."
+    desc_professional = "Vous êtes un inventeur, un chercheur ou un anomaliste. Vous pouvez concevoir, construire, et modifier des équipments dont la plupart des gens ne connaissent même pas l'existence. Vous êtes chez vous dans un labo ou un atelier et vous n'êtes jamais tombé sur un gadget que vous ne pouviez pas démonter, remonter, et répliquer."
 
 /datum/skill/research/computer
     ID = "computer"
-    name = "Information Technology"
-    desc = "Describes your understanding of computers, software and communication. Not a requirement for using computers, but definitely helps. Used in telecommunications and programming of computers and AIs."
-    desc_unskilled = "You know how to use the computers and communication devices that you grew up with. You can use a computer console, a handheld or wall-mounted radio, and your headset, as well as your PDA. You know what an AI is, but you may see them as either \"people made of silicon\" or \"only machines\"; you know they have to obey their laws, but you don't know much about how or why they work."
-    desc_amateur = "You know the basics of programming, but you're not very good at it and couldn't do it professionally. You have a pretty good idea of what makes AIs tick. You understand how information is stored in a computer, and you can fix simple computer problems. You're computer-literate, but you still make mistakes. If you tried to subvert the AI, you might make mistakes in wording your new laws."
-    desc_trained = "At this level, you're probably working with computers on a daily basis. You understand and can repair the telecommunications network. Your understanding of AI programming and psychology lets you fix problems with the AIs or cyborgs--or create problems, if you so desire. You can program computers and AIs and change their laws effectively."
-    desc_professional = "People are probably starting to wonder whether you might be a computer yourself. Computer code is your first language; you relate to AIs as easily as (probably more easily than) organics. You could build a telecommunications network from the ground up."
+    name = "Informatique"
+    desc = "Décrit votre compréhension des ordinateurs, logiciels et réseaux. Non requis pour utiliser des ordinateurs, mais aide certainement. Utilisé dans les télécommunications et la programmation d'ordinateurs et IA."
+    desc_unskilled = "Vous savez comment utiliser les ordinateurs et appareils de communication avec lesquels vous avez grandi. Vous pouvez utiliser une console, une radio portable ou murale, et votre casque ainsi que votre PDA. Vous savez ce qu'est une IA, mais vous les voyez comme \"des gens faits en silicone\" ou \"des simples machines\"; vous savez qu'elles doivent obéir à leur lois, mais ne savez pas grand chose à propos de comment ou pourquoi elles travaillent."
+    desc_amateur = "Vous connaissez les bases de la programmation, mais vous n'y êtes pas très bon et ne pourriez pas en faire professionnelement. Vous avez une petite idée de comment les IA fonctionnent. Vous comprenez comment les informations sont stockées dans un ordinateur et vous pouvez régler les problèmes d'ordinateurs simples. Vous vous y connaissez en ordinateur, mais faites toujours des erreurs. Si vous essayiez de changer l'IA, vous pourriez faire des erreurs en formulant vos nouvelles lois."
+    desc_trained = "A ce niveau, vous travaillez probablement avec des ordinateurs de manière quotidiennet. Vous comprenez et pouvez réparer le réseau de  télécommunications. Votre compréhension de la programmation et de la technologie des IA vous permet de régler des problèmes avec ces dernières ou avec des cyborgs--ou en créer, si vous les désirez. Vous pouvez programmer des ordinateurs et IA et changer leurs lois efficacement."
+    desc_professional = "Les gens commencent à se demander si vous n'êtes pas un ordinateur vous-même. Le code informatique est vore premier langage; vous relativisez avec les IA aussi facilement que (probablement plus facilement qu'avec) les organiques. Vous pourriez mettre en place un réseau de télécommunications de zéro."
 
 /datum/skill/research/science
 	ID = "science"
-	name = "Science"
-	desc = "Your experience and knowledge with scientific methods and processes."
-	desc_unskilled = "You know what science is and probably have a vague idea of the scientific method from your high school science classes."
-	desc_amateur = "You keep up with scientific discoveries. You know a little about most fields of research. You've learned basic laboratory skills. You may read about science as a hobby; or you may be working in a field related to science and have learned about science that way. You could design a simple experiment."
-	desc_trained = "You are a scientist, perhaps a graduate student or post-graduate researcher. You can design an experiment, analyze your results, publish your data, and integrate what you've learned with the research of other scientists. Your laboratory skills are reliable, and you know how to find information you need when you research a new scientific topic."
-	desc_professional = "You are a professional researcher, and you have made multiple new discoveries in your field. Your experiments are well-designed. You are known as an authority in your specialty and your papers often appear in prestigious journals. You may be coordinating the research efforts of a team of scientists."
+	name = "Sciences"
+	desc = "Votre éxpérience et connaissance des méthodes et procédés scientifiques."
+	desc_unskilled = "Vous savez ce qu'est la science et avez probablement une vague idée de la méthode scientifiques grâce à vos cours de science au lycée."
+	desc_amateur = "Vous vous tenez à jour avec les découvertes scientifiques. Vous vous y connaissez un petit peu avec tous les champs de recherche. Vous avez appris des compétences de laboratoire basiques. Vous vous informez peut-être par hobby; ou vous travaillez dans un domaine en rapport avec la science et avez appris de cette manière. Vous pouvez concevoir une expérience simple."
+	desc_trained = "Vous êtes un scientifique, peut-être un étudiant ou un chercheur diplômé. Vous pouvez concevoir une expérience, analyser vos résultats, publier ces données, et fusionner ce que vous avez appris avec les recherches d'autres scientifiques. Vos capacités en laboratoire sont fiables, et vous savez comment trouver une information dont vous besoin quand vous recherchez un nouevau sujet scientifique."
+	desc_professional = "Vous êtes un chercheur professionnel et avez fait de nombreuses découvertes dans votre domaine. Vos expériences sont bien conçues. Vous êtes connu comme une autorité dans votre spécialité et vos articles apparaissent fréquemment dans de prestigieuses publications. Vous pouvez diriger les efforts de recherche d'une équipe de scientifiques."
+
 
 // Category: Medical
 
 /datum/skill/medical/medical
     ID = "medical"
-    name = "Medicine"
+    name = "Médecine"
     desc = "Covers an understanding of the human body and medicine. At a low level, this skill gives a basic understanding of applying common types of medicine, and a rough understanding of medical devices like the health analyzer. At a high level, this skill grants exact knowledge of all the medicine available on the installation, as well as the ability to use complex medical devices like the body scanner or mass spectrometer."
     desc_unskilled = "You know basic first aid, such as how to apply a bandage or ointment to an injury. You can use an autoinjector designed for civilian use, probably by reading the directions printed on it. You can tell when someone is badly hurt and needs a doctor; you can see whether someone has a badly broken bone, is having trouble breathing, or is unconscious. You may not be able to tell the difference between unconscious and dead."
     desc_amateur = "You've taken a first-aid training, nursing, or EMT course. You can stop bleeding, do CPR, apply a splint, take someone's pulse, apply trauma and burn treatments, and read a handheld health scanner. You probably know that Dylovene helps poisoning and Dexalin helps people with breathing problems; you can use a syringe or start an IV. You've been briefed on the symptoms of common emergencies like a punctured lung, appendicitis, alcohol poisoning, or broken bones, and though you can't treat them, you know that they need a doctor's attention. You can recognize most emergencies as emergencies and safely stabilize and transport a patient."
@@ -272,7 +273,7 @@ var/global/list/SKILLS = null
 
 /datum/skill/medical/anatomy
     ID = "anatomy"
-    name = "Anatomy"
+    name = "Anatomie"
     desc = "Gives you a detailed insight of the human body. A high skill in this is required to perform surgery. This skill may also help in examining alien biology."
     desc_unskilled = "You know what organs, bones, and such are, and you know roughly where they are. You know that someone who's badly hurt or sick may need surgery."
     desc_amateur = "You've taken an anatomy class and you've spent at least some time poking around inside actual people. You know where everything is, more or less. You could assist in surgery, if you have the required medical skills. If you have the forensics knowledge, you could perform an autopsy. If you really had to, you could probably perform basic surgery such as an appendectomy, but you're not yet a qualified surgeon and you really shouldn't--not unless it's an emergency. If you're a xenobiologist, you know how to take out slime cores."
@@ -281,7 +282,7 @@ var/global/list/SKILLS = null
 
 /datum/skill/medical/virology
     ID = "virology"
-    name = "Virology"
+    name = "Virologie"
     desc = "This skill implies an understanding of microorganisms and their effects on humans."
     desc_unskilled = "You know that diseases are contagious; you've probably heard you should wash your hands to stop their spread. You know that if you're sick, you can go to Medical and get treatment."
     desc_amateur = "You know how viruses work, and you can use the machinery in the virology lab to analyze a virus or create an antibody. You know the principles of quarantine and you know how to keep a virus from spreading. You know that spaceacillin will help the body fight off a virus. However, you're not specialized in virology, and you probably don't have a whole lot of experience in dealing with viruses. If you are a medical doctor, you know how to treat symptoms and keep sick patients stable."
@@ -290,9 +291,9 @@ var/global/list/SKILLS = null
 
 /datum/skill/medical/chemistry
 	ID = "chemistry"
-	name = "Chemistry"
-	desc = "Experience with mixing chemicals, and an understanding of what the effect will be. This doesn't cover an understanding of the effect of chemicals on the human body, as such the medical skill is also required for medical chemists."
-	desc_unskilled = "You know that chemists work with chemicals; you know that they can make medicine or poison or useful chemicals. You probably know what an element is and have a vague idea of what a chemical reaction is from some chemistry class in your high school days."
-	desc_amateur = "You can make basic chemicals or medication--things like space cleaner or anti-toxin. You have some training in safety and you won't blow up the lab... probably."
-	desc_trained = "You work as a chemist, or else you are a doctor with training in chemistry. If you are a research chemist, you can create most useful chemicals; if you are a pharmacist, you can make most medications. At this stage, you're working mostly by-the-book. You can weaponize your chemicals by making grenades, smoke bombs, and similar devices."
-	desc_professional = "You specialized in chemistry or pharmaceuticals; you are either a medical researcher or professional chemist. You can create custom mixes and make even the trickiest of medications easily. You understand how your pharmaceuticals interact with the bodies of your patients. You are probably the originator of at least one new chemical innovation."
+	name = "Chimie"
+	desc = "Expérience avec des mélanges de produits chimique, et une recherche des effets qu'ils auront. Cela ne concerne pas la compréhension des effets des produits chimiques sur le corps humain, en tant que tel, des compétences médicales sont également nécessaires pour les chimistes médicaux"
+	desc_unskilled = "Vous savez que les chimistes travaillent avec des produits chimique; vous savez aussi qu'ils peuvent faire des médicaments, du poison ou des produits très utile. Vous connaissez probablement quelques élements et vous avez quelques souvenir de réaction chimique qui datent de vos cours de chimie au lycée."
+	desc_amateur = "Vous savez faire les bases au niveau de la chimie et des médicaments.. Des trucs comme du "Space-Cleaner" et de "l'anti-poison".Vous avez fais une formation pour la sécurité et vous n'exploserez pas le labo .. Normalement."
+	desc_trained = "Vous travaillez comme chimiste, ou alors vous êtes un docteur avec une formation en chimie. Si vous êtes un chercheur en chimie, vous pouvez créer de puissante solution; si vous êtes pharmaciens, vous pouvez faire plus de médicaments. A ce stade, vous travaillez plus "by the book". Vous pouvez "armer" vos produits pour en faire des grenades, des fumigènes et des dispositifs similaires  "
+	desc_professional = "Vous vous êtes spécialisés dans la chimie ou dans la pharmaceutique. Vous êtes soit un chercheur en médecine ou un professionel en chimie."

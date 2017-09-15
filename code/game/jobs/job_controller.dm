@@ -443,9 +443,9 @@ var/global/datum/controller/occupations/job_master
 			var/datum/money_account/department_account = department_accounts[job.department]
 
 			if(department_account)
-				remembered_info += "<b>Your department's account number is:</b> #[department_account.account_number]<br>"
-				remembered_info += "<b>Your department's account pin is:</b> [department_account.remote_access_pin]<br>"
-				remembered_info += "<b>Your department's account funds are:</b> T[department_account.money]<br>"
+				remembered_info += "<b>Le numéro de compte de votre département est :</b> #[department_account.account_number]<br>"
+				remembered_info += "<b>Le pin du compte de votre département est :</b> [department_account.remote_access_pin]<br>"
+				remembered_info += "<b>Les montant des fonds sur le compte de votre département est :</b> T[department_account.money]<br>"
 
 			H.mind.store_memory(remembered_info)
 
@@ -471,13 +471,13 @@ var/global/datum/controller/occupations/job_master
 
 				var/atom/placed_in = H.equip_to_storage(item)
 				if(placed_in)
-					to_chat(H, "<span class='notice'>Placing \the [item] in your [placed_in.name]!</span>")
+					to_chat(H, "<span class='notice'>Mise de \the [item] dans votre [placed_in.name]!</span>")
 					continue
 				if(H.equip_to_appropriate_slot(item))
-					to_chat(H, "<span class='notice'>Placing \the [item] in your inventory!</span>")
+					to_chat(H, "<span class='notice'>Mise de \the [item] dans votre inventaire !</span>")
 					continue
 				if(H.put_in_hands(item))
-					to_chat(H, "<span class='notice'>Placing \the [item] in your hands!</span>")
+					to_chat(H, "<span class='notice'>Mise de \the [item] dans vos mains !</span>")
 					continue
 				to_chat(H, "<span class='danger'>Failed to locate a storage object on your mob, either you spawned with no arms and no backpack or this is a bug.</span>")
 				qdel(item)
@@ -493,15 +493,15 @@ var/global/datum/controller/occupations/job_master
 				W.buckled_mob = H
 				W.add_fingerprint(H)
 
-		to_chat(H, "<B>You are [job.total_positions == 1 ? "the" : "a"] [alt_title ? alt_title : rank].</B>")
+		to_chat(H, "<B>Vous êtes [job.total_positions == 1 ? "le" : "un"] [alt_title ? alt_title : rank].</B>")
 
 		if(job.supervisors)
-			to_chat(H, "<b>As the [alt_title ? alt_title : rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
+			to_chat(H, "<b>En tant que [alt_title ? alt_title : rank] vous êtes le subordonnée direct au [job.supervisors]. Des circonstances spéciales peuvent changer ça.</b>")
 
-		to_chat(H, "<b>To speak on your department's radio channel use :h. For the use of other channels, examine your headset.</b>")
+		to_chat(H, "<b>Pour parler dans le canal radio de vote département, faites :h. Examinez votre oreillette pour plus d'informations.</b>")
 
 		if(job.req_admin_notify)
-			to_chat(H, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
+			to_chat(H, "<b>Vous jouez un rôle important dans le déroulement de la partie. Si vous devez vous déconnecter, prévenez un administrateur.</b>")
 
 
 		// EMAIL GENERATION
@@ -520,14 +520,14 @@ var/global/datum/controller/occupations/job_master
 
 		// If even fallback login generation failed, just don't give them an email. The chance of this happening is astronomically low.
 		if(ntnet_global.does_email_exist(complete_login))
-			to_chat(H, "You were not assigned an email address.")
-			H.mind.store_memory("You were not assigned an email address.")
+			to_chat(H, "On ne vous a pas donné d'adresse e-mail.")
+			H.mind.store_memory("On ne vous a pas donné d'adresse e-mail.")
 		else
 			var/datum/computer_file/data/email_account/EA = new/datum/computer_file/data/email_account()
 			EA.password = GenerateKey()
 			EA.login = 	complete_login
-			to_chat(H, "Your email account address is <b>[EA.login]</b> and the password is <b>[EA.password]</b>. This information has also been placed into your notes.")
-			H.mind.store_memory("Your email account address is [EA.login] and the password is [EA.password].")
+			to_chat(H, "Votre adresse e-mail est <b>[EA.login]</b> et le mot de passe <b>[EA.password]</b>. Ces informations ont été placées dans vos notes.")
+			H.mind.store_memory("Votre adress e-mail est [EA.login] et le mot de passe est [EA.password].")
 		// END EMAIL GENERATION
 
 		//Gives glasses to the vision impaired

@@ -50,9 +50,9 @@ var/global/datum/controller/gameticker/ticker
 			else
 				master_mode = "extended"
 
-		to_world("<b>Trying to start [master_mode]...</b>")
-		to_world("<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>")
-		to_world("Please, setup your character and select ready. Game will start in [pregame_timeleft] seconds")
+		to_world("<b>Tentative de démarrer [master_mode]...</b>")
+		to_world("<B><FONT color='blue'>Bienvenue dans le salon d'avant partie !</FONT></B>")
+		to_world("Veuillez configurer votre personnage et vous mettre en 'Prêt'. La partie démarre dans [pregame_timeleft] secondes")
 
 		while(current_state == GAME_STATE_PREGAME)
 			for(var/i=0, i<10, i++)
@@ -87,7 +87,7 @@ var/global/datum/controller/gameticker/ticker
 		if(!runnable_modes.len)
 			current_state = GAME_STATE_PREGAME
 			Master.SetRunLevel(RUNLEVEL_LOBBY)
-			to_world("<B>Unable to choose playable game mode.</B> Reverting to pre-game lobby.")
+			to_world("<B>Impossible de choisir un mode de jeu jouable.</B> Retour dans le salon d'avant-partie.")
 
 			return 0
 		if(secret_force_mode != "secret")
@@ -103,7 +103,7 @@ var/global/datum/controller/gameticker/ticker
 	if(!src.mode)
 		current_state = GAME_STATE_PREGAME
 		Master.SetRunLevel(RUNLEVEL_LOBBY)
-		to_world("<span class='danger'>Serious error in mode setup!</span> Reverting to pre-game lobby.")
+		to_world("<span class='danger'>Erreur fatale dans la configuration du mode !</span> Retour dans le salon d'avant-partie.")
 
 		return 0
 
@@ -114,7 +114,7 @@ var/global/datum/controller/gameticker/ticker
 
 	var/t = src.mode.startRequirements()
 	if(t)
-		to_world("<B>Unable to start [mode.name].</B> [t] Reverting to pre-game lobby.")
+		to_world("<B>Impossible de démarrer [mode.name].</B> [t] Retour dans le salon d'avant-partie..")
 
 		current_state = GAME_STATE_PREGAME
 		Master.SetRunLevel(RUNLEVEL_LOBBY)
@@ -124,7 +124,7 @@ var/global/datum/controller/gameticker/ticker
 		return 0
 
 	if(hide_mode)
-		to_world("<B>The current game mode is - Secret!</B>")
+		to_world("<B>Le mode de jeu actuel est - Secret!</B>")
 
 		if(runnable_modes.len)
 			var/list/tmpmodes = new
@@ -132,7 +132,7 @@ var/global/datum/controller/gameticker/ticker
 				tmpmodes+=M.name
 			tmpmodes = sortList(tmpmodes)
 			if(tmpmodes.len)
-				to_world("<B>Possibilities:</B> [english_list(tmpmodes)]")
+				to_world("<B>Possibilités:</B> [english_list(tmpmodes)]")
 
 	else
 		src.mode.announce()
@@ -151,7 +151,7 @@ var/global/datum/controller/gameticker/ticker
 
 	spawn(0)//Forking here so we dont have to wait for this to finish
 		mode.post_setup()
-		to_world("<FONT color='blue'><B>Enjoy the game!</B></FONT>")
+		to_world("<FONT color='blue'><B>Bon jeu !</B></FONT>")
 		sound_to(world, sound('sound/AI/welcome.ogg'))// Skie
 
 		//Holiday Round-start stuff	~Carn
