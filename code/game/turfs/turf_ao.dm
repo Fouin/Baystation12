@@ -4,7 +4,7 @@
 // Index is dir, the order of these matters.
 // Ported to Europa, thanks Lohikar.
 var/list/ao_cache = list()
-var/list/dir2bdir = list(N_NORTH, N_SOUTH, 0, N_EAST, N_NORTHEAST, N_SOUTHEAST, 0, N_WEST, N_NORTHWEST)
+var/list/dir2bdir = list(N_NORTH, N_SOUTH, 0, N_EAST, N_NORTHEAST, N_SOUTHEAST, 0, N_WEST, N_NORTHWEST, N_SOUTHWEST)
 
 /turf
 	var/permit_ao
