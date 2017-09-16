@@ -145,6 +145,15 @@ var/global/list/SKILLS = null
 	desc_trained = "Vous savez cuisiner à grande échelle, et garder un équipage entier bien nourri. Vos repas sont bons et vous n'avez aucuns problème avec les recettes compliquées. Vous pouvez préparer la plupart des boissons souvent servies."
 	desc_professional = "Non seulement vous savez très bien cuisiner et préparer des cocktails d'excellente facture, mais vous savez très bien gérer un groupe de cuisinier et préparer des repas pour des occasions spéciales. Vous êtes probablement renommé ou recompensé."
 
+/datum/skill/secondary/barter
+	ID = "barter"
+	name = "Troc"
+	desc = "Votre abilité à commercer, à connaître la valeur des choses et à être au courant des fluctuations du marché."
+	desc_unskilled = "Vous connaissez la valeur de votre salaire et de la plupart des objets de votre quotidien. Vous ne savez pas exactement ce qui signifie l'offre et la demande, mais vous le vivez plutot bien."
+	desc_trained = "Vendre des objets est votre métier. Vous êtes renseigné sur la valeur des produits qui composent votre stock. Vous avez l'expérience de la négociation et seriez probablement capable de faire passer une babiole pour une antiquité."
+	desc_professional = "Vous êtes passé maître dans l'art de vendre les choses plus que ce qu'elles valent. Vous êtes très bien renseigné sur le cours de la Bourse. Vous êtes probablement un actionnaire."
+
+
 // Category: Security
 
 /datum/skill/security/combat
