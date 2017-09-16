@@ -11,6 +11,7 @@ var/global/list/mechas_list = list()				//list of all mechs. Used by hostile mob
 var/global/list/joblist = list()					//list of all jobstypes, minus borg and AI
 
 var/global/list/turfs = list()						//list of all turfs
+var/list/init_turfs = list()
 
 #define all_genders_define_list list(MALE,FEMALE,PLURAL,NEUTER)
 #define all_genders_text_list list("Male","Female","Plural","Neuter")

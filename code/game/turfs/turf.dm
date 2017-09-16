@@ -27,11 +27,6 @@
 
 	var/movement_delay
 
-/turf/Initialize()
-	..()
-	update_icon(1)
-	regenerate_ao()
-
 /turf/New()
 	..()
 	for(var/atom/movable/AM as mob|obj in src)
@@ -44,6 +39,11 @@
 		luminosity = 0
 	else
 		luminosity = 1
+
+	if(ticker && ticker.current_state >= GAME_STATE_PLAYING)
+		ChangeTurf()
+	else
+		init_turfs += src
 
 /turf/Destroy()
 	turfs -= src

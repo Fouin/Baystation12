@@ -91,6 +91,15 @@ datum/controller/game_controller/proc/setup_objects()
 
 #undef CHECK_SLEEP_MASTER
 
+	admin_notice("<span class='danger'>Initializing [init_turfs.len] turf\s.</span>", R_DEBUG)
+	for(var/thing in init_turfs)
+		var/turf/T = thing
+		if(!QDELETED(T))
+			T.ChangeTurf()
+			CHECK_TICK
+
+	init_turfs.Cut()
+
 /proc/report_progress(var/progress_message)
 	admin_notice("<span class='boldannounce'>[progress_message]</span>", R_DEBUG)
 	to_world_log(progress_message)
